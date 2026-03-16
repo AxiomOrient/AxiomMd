@@ -81,12 +81,14 @@ AxiomMd    -> AxiomSpecs         -> Axiom / runtime repos      -> AxiomMd
 7. `docs/06_REPOSITORY_GUIDELINES.md`
 8. `docs/07_TWO_REPO_LOOP.md`
 9. `docs/08_DOCUMENT_UPGRADE_GUIDE.md`
-10. `specs/README.md`
-11. `specs/SPEC_PACKAGE_STANDARD.md`
-12. `templates/**`
+10. `docs/09_PACKAGE_READINESS_GATE.md`
+11. `specs/README.md`
+12. `specs/SPEC_PACKAGE_STANDARD.md`
+13. `templates/**`
 
 ## Current State
 
 - AxiomMd는 generic standard / template / methodology owner다.
 - AxiomSpecs는 이 저장소를 import해서 product-specific overlay만 추가한다.
 - 방법론의 개선은 observation을 generic asset으로 승격할 때만 AxiomMd에 반영한다.
+- package가 구현-ready 상태인지 검토할 때는 `docs/09_PACKAGE_READINESS_GATE.md`를 먼저 통과해야 한다.

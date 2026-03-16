@@ -16,6 +16,7 @@
 | `docs/06_REPOSITORY_GUIDELINES.md` | AxiomMd 경계와 입고 기준은 무엇인가 |
 | `docs/07_TWO_REPO_LOOP.md` | AxiomMd와 AxiomSpecs의 closed-loop handoff는 어떻게 운영하는가 |
 | `docs/08_DOCUMENT_UPGRADE_GUIDE.md` | 문서를 어디에 추가하고 언제 삭제 / 이동 / 아카이브할 것인가 |
+| `docs/09_PACKAGE_READINESS_GATE.md` | package가 implementation-ready 상태인지 어떻게 판정하는가 |
 | `specs/SPEC_PACKAGE_STANDARD.md` | generic spec package는 어떤 구조를 가져야 하는가 |
 | `templates/**` | 새 package나 work item을 어떻게 시작하는가 |
 
