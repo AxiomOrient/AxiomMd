@@ -1,40 +1,74 @@
 # AxiomMd
 
-AxiomMd는 AI 개발 방법론 저장소다.
-이 저장소는 하네스 엔지니어링, spec-driven development, agentic development, mental model, skill system, generic spec standard와 template를 다룬다.
+AxiomMd는 AxiomOrient의 generic methodology / reusable asset 저장소다.
 
-## Repository Rule
+## Role
 
-이 저장소에는 **방법론과 문서 자산만 추가한다**.
-즉, 아래만 허용한다.
+AxiomMd가 소유하는 것은 아래다.
 
-- 개발 방법론 문서
-- generic spec standard
-- generic templates
-- skill / workflow / harness 같은 reusable asset 문서
+- 방법론 문서
+- closed-loop 운영 규칙
+- harness / quality / failure loop 규칙
+- skill / workflow / reusable reasoning asset
+- generic spec package standard
+- generic template
+- 문서 승격 / 정리 / 경계 유지 규칙
 
-아래는 넣지 않는다.
+AxiomMd가 소유하지 않는 것은 아래다.
 
 - 특정 제품의 blueprint
-- 특정 제품 기능 spec
-- 특정 제품 runtime architecture
-- 특정 제품 implementation backlog
+- 특정 제품 architecture
+- 특정 제품 feature package
+- 특정 제품 backlog / plan / evidence
+- 특정 구현 저장소의 runtime 상세
+
+## Two-Repo Loop
+
+AxiomMd는 generic truth를, AxiomSpecs는 Axiom-specific truth를 소유한다.
+
+```text
+methodology -> product application -> implementation observation -> feedback
+AxiomMd    -> AxiomSpecs         -> Axiom / runtime repos      -> AxiomMd
+```
+
+핵심 원칙은 단순하다.
+
+- generic하면 AxiomMd에 둔다
+- Axiom에만 해당하면 AxiomSpecs에 둔다
+- crate / API / runtime 세부사항이면 implementation repo가 둔다
+
+## Admission Rule
+
+다음 질문에 모두 “예”면 AxiomMd 후보다.
+
+1. 제품명을 지워도 의미가 남는가
+2. 두 개 이상 제품에서 재사용 가능한가
+3. 특정 repo path 대신 generic contract로 설명 가능한가
+4. 예시를 generic example로 바꿔도 손상이 없는가
+
+하나라도 “아니오”면 AxiomSpecs나 implementation repo가 소유한다.
+
+## Curation Rule
+
+- 중복 문서는 합친다.
+- generic 복제본은 삭제한다.
+- 임시 메모는 durable 문서로 승격하지 않으면 삭제한다.
+- archive는 외부 참조 가치나 중요한 의사결정 이력이 있을 때만 쓴다.
 
 ## Scope
 
-- AI 개발 방법론 분류
-- Spec-Driven Agentic Software Engineering 정의
-- Closed-Loop Harnessed Development 운영 원리
-- harness/quality/failure loop
-- skill system과 reusable reasoning asset
-- generic spec package standard
-- reusable templates
+- 방법론 문서
+- generic spec standard
+- generic templates
+- skill / workflow / harness 같은 reusable asset 문서
+- 두 저장소 운영 규칙
 
 ## Out of Scope
 
-- 특정 제품의 blueprint
-- 특정 시스템의 runtime architecture
-- 특정 제품 기능의 실제 feature package
+- 특정 제품 blueprint
+- 특정 제품 feature spec
+- 특정 제품 runtime architecture
+- 특정 제품 implementation backlog
 
 ## Read Order
 
@@ -45,11 +79,14 @@ AxiomMd는 AI 개발 방법론 저장소다.
 5. `docs/04_QUALITY_SYSTEM.md`
 6. `docs/05_SKILL_SYSTEM.md`
 7. `docs/06_REPOSITORY_GUIDELINES.md`
-8. `specs/README.md`
-9. `specs/SPEC_PACKAGE_STANDARD.md`
-10. `templates/**`
+8. `docs/07_TWO_REPO_LOOP.md`
+9. `docs/08_DOCUMENT_UPGRADE_GUIDE.md`
+10. `specs/README.md`
+11. `specs/SPEC_PACKAGE_STANDARD.md`
+12. `templates/**`
 
 ## Current State
 
-- 방법론 문서와 generic standard만 남겼다
-- template와 generic spec standard를 self-contained하게 유지한다
+- AxiomMd는 generic standard / template / methodology owner다.
+- AxiomSpecs는 이 저장소를 import해서 product-specific overlay만 추가한다.
+- 방법론의 개선은 observation을 generic asset으로 승격할 때만 AxiomMd에 반영한다.
