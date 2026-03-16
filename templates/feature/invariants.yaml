@@ -1,0 +1,3 @@
+invariants:
+  - id: INV-0001
+    rule: "<must always remain true>"

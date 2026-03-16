@@ -1,0 +1,13 @@
+feature_id: FEAT-xxxx
+title: "<feature title>"
+
+requirements:
+  - id: REQ-0001
+    story: "<actor> can <behavior>"
+    priority: must
+    acceptance:
+      - "<observable acceptance criterion>"
+      - "<observable acceptance criterion>"
+
+non_goals:
+  - "<explicitly out of scope>"

@@ -1,0 +1,12 @@
+feature:
+  id: FEAT-xxxx
+  slug: short-slug
+  title: "<feature title>"
+  summary: >
+    <one-paragraph summary>
+  state: draft
+  brownfield_mode: false
+  profile_key: axiom.default
+  owner_role: founder
+  review_mode: human_required
+  source_refs: []

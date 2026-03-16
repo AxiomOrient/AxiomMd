@@ -1,0 +1,16 @@
+policy:
+  must_requirement_coverage_target: 0.90
+  release_invariant_coverage_target: 1.00
+  hard_eval_failure_blocks_completion: true
+
+evals:
+  - id: EVAL-0001
+    title: "<what is verified>"
+    kind: contract
+    blocking: true
+    hard: true
+    req_ids: [REQ-0001]
+    inv_ids: []
+    task_ids: [TASK-0001]
+    command: "<local command>"
+    expected_artifacts: []

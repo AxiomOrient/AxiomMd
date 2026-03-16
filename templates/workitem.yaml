@@ -1,0 +1,18 @@
+workitem_id: WI-xxxx
+feature_id: FEAT-xxxx
+task_ids:
+  - TASK-0001
+workspace_key: feat-xxxx
+execution_policy:
+  allow_write: true
+  allow_network: false
+required_artifacts:
+  - package.yaml
+  - requirements.yaml
+  - tasks.md
+required_evidence:
+  - requirement_coverage
+  - test_summary
+  - reconciliation_note
+attempt: 1
+state: pending
