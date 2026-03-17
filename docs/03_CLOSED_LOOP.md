@@ -46,6 +46,16 @@ raw intent
 - changed decisions or “none”
 - next step or blocker
 
+## Packet Rule
+
+각 단계는 말로만 넘기지 않는다.
+최소 아래 둘 중 하나를 남겨야 한다.
+
+- source file update
+- handoff packet
+
+정규화되지 않은 채팅 요약만으로 다음 단계가 시작되면 루프가 약해진다.
+
 ## Open Question Rule
 
 모호함은 requirement로 위장하지 않는다.

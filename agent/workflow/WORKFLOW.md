@@ -38,6 +38,16 @@ intent
 - `evals.yaml`
 - `decisions.jsonl`
 
+## Workflow I/O Rule
+
+Every stage must consume file-state input and leave file-state output.
+
+- request -> `input.packet.yaml`
+- authoring / review -> package files or document files
+- stage handoff -> `handoff.packet.yaml`
+
+Chat may explain the work, but chat is not the protocol.
+
 ## Verification
 
 Verifier owns verification truth.

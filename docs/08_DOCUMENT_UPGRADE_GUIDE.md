@@ -34,8 +34,8 @@
 ## Move When
 
 - 문서 내용은 유효하지만 owner가 잘못됐다
-- generic lesson이 product repo에 있다
-- product-specific overlay가 methodology repo에 있다
+- generic lesson이 product-specific 문서 공간에 있다
+- product-specific 내용이 generic 문서 공간에 있다
 
 ## Archive Rarely
 

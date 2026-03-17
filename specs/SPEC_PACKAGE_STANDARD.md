@@ -37,6 +37,7 @@ canonical truth는 아니다.
 
 - feature 메타데이터
 - owner 역할
+- verification owner 역할
 - profile key
 - review mode
 - state
@@ -76,6 +77,8 @@ canonical truth는 아니다.
 - task와 requirement를 닫는 검증 계약
 - coverage 정책
 - blocking / hard eval
+- eval intent owner
+- eval intent change approval posture
 
 ### `risks.yaml`
 
@@ -122,6 +125,7 @@ canonical truth는 아니다.
 - `tasks.md`
 - `evals.yaml`
 - owner / review mode 정의
+- verification owner 정의
 - 최소 1개 이상의 `REQ-*`
 - 모든 `TASK-*`에 `REQ-*`와 `EVAL-*`가 연결됨
 

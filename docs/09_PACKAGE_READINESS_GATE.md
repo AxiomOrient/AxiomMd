@@ -60,7 +60,10 @@
 아래가 모두 명시돼야 한다.
 
 - `review_mode`
+- `verification_owner_role`
 - high-risk 작업의 승인 posture
+- blocking eval intent를 누가 소유하는지
+- eval intent 변경에 누가 승인하는지
 - destructive / external / privileged behavior의 처리 방식
 - brownfield면 current reality 또는 baseline
 

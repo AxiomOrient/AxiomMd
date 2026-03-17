@@ -1,0 +1,10 @@
+packet_version: 1
+stage: "<intent|authoring|review|execution|verification|reconcile>"
+status: "<ready|patch-required|hold|blocked>"
+input_ref: "<path/to/input.packet.yaml or source root>"
+changed_paths: []
+produced_paths: []
+evidence_refs: []
+open_questions: []
+next_step: "<next concrete step>"
+blockers: []

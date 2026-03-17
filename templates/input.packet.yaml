@@ -1,0 +1,12 @@
+packet_version: 1
+request_summary: "<what is being asked>"
+target_kind: "<feature-package|scoped-artifact|review|workflow-step>"
+source_context_refs: []
+output_contract_refs: []
+scope:
+  in: []
+  out: []
+constraints: []
+done_signals: []
+open_questions: []
+evidence_refs: []

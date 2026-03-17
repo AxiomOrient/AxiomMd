@@ -8,5 +8,6 @@ feature:
   brownfield_mode: false
   profile_key: axiom.default
   owner_role: founder
+  verification_owner_role: verifier
   review_mode: human_required
   source_refs: []
