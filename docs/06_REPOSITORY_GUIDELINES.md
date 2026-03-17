@@ -2,7 +2,7 @@
 
 ## Purpose
 
-이 문서는 AxiomMd에 무엇을 추가할 수 있고 무엇을 추가하면 안 되는지 고정한다.
+이 문서는 이 저장소에 무엇을 추가할 수 있고 무엇을 추가하면 안 되는지 고정한다.
 
 ## Placement Test
 
@@ -13,8 +13,8 @@
 3. 특정 repo path나 runtime 대신 generic contract로 설명 가능한가
 4. 예시를 generic example로 바꿔도 의미가 보존되는가
 
-모두 “예”면 AxiomMd 후보다.
-하나라도 “아니오”면 AxiomSpecs 또는 implementation repo가 더 적합하다.
+모두 “예”면 이 저장소 후보다.
+하나라도 “아니오”면 product-truth repo 또는 implementation repo가 더 적합하다.
 
 ## Allowed
 
@@ -55,5 +55,5 @@
 
 ## Final Rule
 
-AxiomMd는 방법론 저장소다.
+이 저장소는 방법론 저장소다.
 제품 문서가 필요해지는 순간, 그 문서는 다른 저장소가 소유해야 한다.

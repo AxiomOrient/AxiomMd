@@ -1,6 +1,6 @@
 # AxiomMd
 
-AxiomMd는 AxiomOrient의 generic methodology / reusable asset 저장소다.
+AxiomMd는 generic methodology / reusable asset 저장소다.
 
 ## Role
 
@@ -24,17 +24,17 @@ AxiomMd가 소유하지 않는 것은 아래다.
 
 ## Two-Repo Loop
 
-AxiomMd는 generic truth를, AxiomSpecs는 Axiom-specific truth를 소유한다.
+AxiomMd는 generic truth를, 별도의 product-truth repo는 product-specific truth를 소유한다.
 
 ```text
-methodology -> product application -> implementation observation -> feedback
-AxiomMd    -> AxiomSpecs         -> Axiom / runtime repos      -> AxiomMd
+methodology repo -> product application -> implementation observation -> feedback
+methodology repo -> product-truth repo -> implementation / runtime repos -> methodology repo
 ```
 
 핵심 원칙은 단순하다.
 
-- generic하면 AxiomMd에 둔다
-- Axiom에만 해당하면 AxiomSpecs에 둔다
+- generic하면 여기에 둔다
+- Axiom에만 해당하면 product-truth repo에 둔다
 - crate / API / runtime 세부사항이면 implementation repo가 둔다
 
 ## Admission Rule
@@ -46,7 +46,7 @@ AxiomMd    -> AxiomSpecs         -> Axiom / runtime repos      -> AxiomMd
 3. 특정 repo path 대신 generic contract로 설명 가능한가
 4. 예시를 generic example로 바꿔도 손상이 없는가
 
-하나라도 “아니오”면 AxiomSpecs나 implementation repo가 소유한다.
+하나라도 “아니오”면 product-truth repo나 implementation repo가 소유한다.
 
 ## Curation Rule
 
@@ -82,13 +82,14 @@ AxiomMd    -> AxiomSpecs         -> Axiom / runtime repos      -> AxiomMd
 8. `docs/07_TWO_REPO_LOOP.md`
 9. `docs/08_DOCUMENT_UPGRADE_GUIDE.md`
 10. `docs/09_PACKAGE_READINESS_GATE.md`
-11. `specs/README.md`
-12. `specs/SPEC_PACKAGE_STANDARD.md`
-13. `templates/**`
+11. `agent/workflow/README.md`
+12. `specs/README.md`
+13. `specs/SPEC_PACKAGE_STANDARD.md`
+14. `templates/**`
 
 ## Current State
 
-- AxiomMd는 generic standard / template / methodology owner다.
-- AxiomSpecs는 이 저장소를 import해서 product-specific overlay만 추가한다.
-- 방법론의 개선은 observation을 generic asset으로 승격할 때만 AxiomMd에 반영한다.
+- 이 저장소는 generic standard / template / methodology owner다.
+- product-specific overlay는 외부 product-truth repo가 소유한다.
+- 방법론의 개선은 observation을 generic asset으로 승격할 때만 이 저장소에 반영한다.
 - package가 구현-ready 상태인지 검토할 때는 `docs/09_PACKAGE_READINESS_GATE.md`를 먼저 통과해야 한다.
