@@ -6,7 +6,6 @@
 
 ## Included Files
 
-- `VERSION`
 - `WORKFLOW.md`
 - `ROLE_POLICY.md`
 - `EVAL_POLICY.md`
