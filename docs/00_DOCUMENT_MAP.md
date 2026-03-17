@@ -19,6 +19,7 @@
 | `docs/09_PACKAGE_READINESS_GATE.md` | package가 implementation-ready 상태인지 어떻게 판정하는가 |
 | `docs/10_WORKFLOW_IO_PROTOCOL.md` | workflow 단계와 skill이 어떤 입력을 읽고 어떤 출력을 남겨야 하는가 |
 | `docs/11_CLIENT_INTENT_TO_SPEC_WORKFLOW.md` | 클라이언트나 기획 입력에서 어떤 문서를 만들고 어떻게 spec으로 좁혀 가는가 |
+| `docs/12_SPEC_AUTHORING_WORKFLOW_SET.md` | spec 문서를 만들 때 어떤 큰 작업 단위 workflow를 따라야 하는가 |
 | `agent/workflow/**` | 실행 계약, role ownership, eval/escalation policy를 어떻게 고정하는가 |
 | `specs/SPEC_PACKAGE_STANDARD.md` | generic spec package는 어떤 구조를 가져야 하는가 |
 | `templates/**` | 새 package나 work item을 어떻게 시작하는가 |
@@ -27,4 +28,4 @@
 
 - 이 저장소는 방법론을 다룬다.
 - 특정 제품의 blueprint나 feature truth는 다루지 않는다.
-- product-specific overlay는 다른 저장소가 소유한다.
+- 제품별 내용은 이 저장소 밖에서 소유한다.

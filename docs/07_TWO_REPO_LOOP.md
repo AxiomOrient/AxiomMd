@@ -35,7 +35,7 @@
 아래 중 하나라도 해당하면 product-specific space에 남긴다.
 
 - Axiom surface나 plane을 직접 다룬다
-- Axiom repo path를 직접 다룬다
+- 특정 제품 저장소 경로를 직접 다룬다
 - 특정 feature package의 product intent를 다룬다
 - Axiom 조직 runtime adoption 정책을 다룬다
 
@@ -72,4 +72,13 @@
 - product-specific space에 generic standard를 그대로 복제
 - generic space에 제품 feature truth 저장
 - implementation space에 durable product blueprint 저장
+- 다른 저장소 파일을 직접 링크해 generic 문서를 설명
 - chat에만 결정을 남기고 source를 고치지 않음
+
+## Boundary Rule
+
+공간은 연결돼 있어도 문서는 직접 의존하지 않는다.
+
+- generic space 문서가 다른 저장소 파일 경로를 직접 참조하면 안 된다
+- product-specific space 문서도 generic space 파일 링크에 의존하면 안 된다
+- 필요하면 각 공간이 자기 문장으로 다시 써야 한다

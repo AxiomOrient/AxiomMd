@@ -2,15 +2,23 @@
 
 ## Purpose
 
-이 문서는 표준 실행 루프를 정의한다.
+이 문서는 spec authoring 이후에 이어지는 표준 실행 루프를 정의한다.
 
-## Standard Loop
+## Two Parts
 
 ```text
-raw intent
--> intent record
--> spec package
--> approved plan
+authoring workflows
+-> approved package
+-> execution loop
+```
+
+spec 문서를 만드는 과정과,
+승인된 package를 실행하는 과정은 나눠서 본다.
+
+## Execution Loop
+
+```text
+approved package
 -> bounded execution
 -> verification
 -> reconcile
@@ -21,14 +29,13 @@ raw intent
 
 | Stage | Input | Output | Gate Question |
 | --- | --- | --- | --- |
-| Intent Capture | free-form request | `intent.md` | 누가 무엇을 원하는지 보이는가 |
-| Spec Compilation | intent | `package.yaml`, `requirements.yaml`, `invariants.yaml`, `risks.yaml` | 요구사항과 비목표가 분리됐는가 |
-| Planning | approved package | `design.md`, `tasks.md`, `evals.yaml` | task와 eval이 requirement와 연결됐는가 |
-| Approval | package + plan | approved revision | high-risk와 scope가 승인됐는가 |
+| Approval | approved feature package | approved revision | high-risk와 scope가 승인됐는가 |
 | Execution | approved tasks | code, tests, traces, artifacts | 이번 loop의 범위가 bounded한가 |
 | Verification | execution result | harness results, evidence draft | 통과/실패를 기계적으로 판단할 수 있는가 |
 | Reconcile | spec + diff + tests + traces | spec patch, decision append, drift class | 새 행동이나 누락이 source에 반영됐는가 |
 | Acceptance | evidence + reconcile result | accept / hold / patch-required | evidence가 충분한가 |
+
+authoring workflow의 단계 정의는 `docs/12_SPEC_AUTHORING_WORKFLOW_SET.md`가 소유한다.
 
 ## Loop Size Rule
 
@@ -45,6 +52,7 @@ raw intent
 - validation result
 - changed decisions or “none”
 - next step or blocker
+- handoff packet or explicit blocker state
 
 ## Packet Rule
 

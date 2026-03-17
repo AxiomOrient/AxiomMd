@@ -15,6 +15,7 @@ Owns project goal, priority, scope, and acceptance posture.
 ### Architect
 
 Owns boundaries, invariants, risk posture, design approval, and eval-intent changes.
+Owns route decisions when framing necessity or boundary posture is unclear.
 
 ### Developer
 
@@ -36,3 +37,7 @@ Owns:
 - verification execution
 - evidence draft
 - validation result
+
+### Reviewer
+
+Owns readiness judgment for `ready | patch-required | hold` when a separate readiness workflow exists.

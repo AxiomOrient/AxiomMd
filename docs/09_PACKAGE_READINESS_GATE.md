@@ -7,11 +7,23 @@
 ## Why This Exists
 
 문서가 있다고 해서 바로 구현-ready인 것은 아니다.
-실행 전에 아래 세 가지가 닫혀야 한다.
+실행 전에 아래 네 가지가 닫혀야 한다.
 
-1. source package가 구조적으로 완전한가
-2. requirement / task / eval linkage가 닫혀 있는가
-3. 다른 사람이 채팅 기록 없이 이어받을 수 있는가
+1. authoring context가 충분한가
+2. source package가 구조적으로 완전한가
+3. requirement / task / eval linkage가 닫혀 있는가
+4. 다른 사람이 채팅 기록 없이 이어받을 수 있는가
+
+## Gate 0. Authoring Context Completeness
+
+package가 아래 흐름 어디서 왔는지 file state로 보여야 한다.
+
+- `input.packet.yaml`이 있다
+- `route.decision.yaml`이 있다
+- route가 `framing-first`면 `product-charter.md`, `system-blueprint.md`가 있다
+
+이 정보가 전혀 없으면 package는 restartability가 약하다.
+이 경우 최소 `patch-required`다.
 
 ## Gate 1. Required File Set
 
@@ -78,6 +90,22 @@
 - 열린 질문
 - 다음 step
 - blocker 또는 `none`
+- 필요하면 `handoff.packet.yaml`
+
+## Reference Validation
+
+package는 가능하면 아래 검사를 통과해야 한다.
+
+- required file set 존재
+- must requirement와 blocking eval 연결
+- task와 req/eval linkage 연결
+- design 필수 섹션 존재
+- handoff packet shape 유효
+
+문서만 보고 “좋아 보인다”로 끝내지 않는다.
+
+generic 저장소는 base validator를 소유할 수 있다.
+제품 저장소는 그 base validator 위에 local overlay 검사를 더할 수 있다.
 
 ## Output States
 

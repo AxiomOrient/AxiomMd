@@ -1,0 +1,8 @@
+packet_version: 1
+input_ref: "<path/to/input.packet.yaml>"
+route: "<direct-package|framing-first|hold>"
+reason_summary: "<why this route is correct>"
+required_artifacts: []
+next_step: "<next workflow>"
+open_questions: []
+blockers: []

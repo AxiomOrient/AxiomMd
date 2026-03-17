@@ -1,5 +1,5 @@
 packet_version: 1
-stage: "<intent|authoring|review|execution|verification|reconcile>"
+stage: "<intake-and-routing|framing|feature-package-authoring|readiness-and-handoff|execution|verification|reconcile>"
 status: "<ready|patch-required|hold|blocked>"
 input_ref: "<path/to/input.packet.yaml or source root>"
 changed_paths: []

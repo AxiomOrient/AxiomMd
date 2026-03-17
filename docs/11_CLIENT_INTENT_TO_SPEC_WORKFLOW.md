@@ -3,19 +3,18 @@
 ## Purpose
 
 이 문서는 클라이언트 요청, 기획서, 미팅 노트 같은 초기 입력에서
-실제로 구현 가능한 spec까지 어떻게 좁혀 가는지 정의한다.
+실제로 구현 가능한 spec까지 어떤 workflow를 거쳐 좁혀 가는지 정의한다.
 
 ## Core Rule
 
 초기 입력은 바로 spec이 아니다.
 
-먼저 아래 순서로 정리해야 한다.
+먼저 workflow 단위로 아래 순서로 정리해야 한다.
 
-1. 입력 정규화
-2. 범위 판정
-3. 제품 레벨 문서 필요 여부 판정
-4. feature package 작성
-5. readiness review
+1. intake and routing
+2. framing if needed
+3. feature package authoring
+4. readiness and handoff
 
 ## Document Stack
 
@@ -44,7 +43,14 @@
 
 이 문서가 없으면 다음 단계가 입력을 제각각 해석하게 된다.
 
-### Level 2. Product Framing Docs
+### Level 2. Route Decision
+
+항상 intake workflow 안에서 같이 만든다.
+
+- 형식: `templates/route.decision.yaml`
+- 목적: 바로 package로 갈지, framing을 먼저 할지 고정
+
+### Level 3. Product Framing Docs
 
 아래 둘은 필요할 때만 만든다.
 
@@ -82,7 +88,7 @@
 - 무엇을 source truth로 둘지
 - 어디까지 이번 범위인지
 
-### Level 3. Feature Package
+### Level 4. Feature Package
 
 실제로 구현을 열기 전 반드시 필요하다.
 
@@ -102,12 +108,13 @@
 - `risks.yaml`
 - `decisions.jsonl`
 
-### Level 4. Readiness Review
+### Level 5. Readiness Review
 
 구현 전에 반드시 필요하다.
 
 - 기준: `docs/09_PACKAGE_READINESS_GATE.md`
 - 결과: `ready | patch-required | hold`
+- 형식: `templates/readiness-report.md`
 
 ## Routing Rule
 
@@ -126,9 +133,9 @@
 
 ```text
 raw input
--> input packet
--> feature package
--> readiness review
+-> intake and routing
+-> feature package authoring
+-> readiness and handoff
 ```
 
 ### Case B. Product framing이 먼저 필요한 경우
@@ -145,12 +152,10 @@ raw input
 
 ```text
 raw input
--> input packet
--> product charter
--> system blueprint
--> feature split
--> feature package
--> readiness review
+-> intake and routing
+-> framing
+-> feature package authoring
+-> readiness and handoff
 ```
 
 ## What Must Be In The Input Packet
@@ -175,6 +180,24 @@ raw input
 - 아직 모르는 사실
 - 성공을 어떻게 볼지
 
+## What Must Be In The Route Decision
+
+최소 아래는 채워야 한다.
+
+- `input_ref`
+- `route`
+- `reason_summary`
+- `required_artifacts`
+- `next_step`
+- `open_questions`
+- `blockers`
+
+좋은 route decision은 아래를 같이 보여준다.
+
+- 왜 direct path인지 또는 framing path인지
+- 어떤 문서가 다음에 필요해지는지
+- 지금 멈춰야 하는지 아닌지
+
 ## What Makes A Good Feature Package
 
 좋은 feature package는 아래를 만족한다.
@@ -185,33 +208,23 @@ raw input
 - design이 boundary와 failure mode를 설명한다
 - 다른 사람이 chat 없이 재개할 수 있다
 
-## Recommended Skill Workflow
+## Workflow Set
 
-generic workflow로는 아래가 가장 적합하다.
+기본 workflow는 아래 네 개가 가장 적합하다.
 
-### 1. Intake Normalizer
+### 1. Intake And Routing Workflow
 
 역할:
 
-- raw input를 `input.packet.yaml`로 정리
+- raw input를 `input.packet.yaml`으로 정리
+- direct path인지 framing path인지 판정
 
 출력:
 
 - `input.packet.yaml`
+- `route.decision.yaml`
 
-### 2. Scope Router
-
-역할:
-
-- 바로 feature package로 갈지
-- charter/blueprint가 먼저 필요한지 판정
-
-출력:
-
-- `target_kind`
-- 다음 문서 종류
-
-### 3. Charter / Blueprint Author
+### 2. Framing Workflow
 
 역할:
 
@@ -221,8 +234,9 @@ generic workflow로는 아래가 가장 적합하다.
 
 - `product-charter.md`
 - `system-blueprint.md`
+- `handoff.packet.yaml`
 
-### 4. Feature Package Author
+### 3. Feature Package Authoring Workflow
 
 역할:
 
@@ -231,8 +245,9 @@ generic workflow로는 아래가 가장 적합하다.
 출력:
 
 - feature package file set
+- `handoff.packet.yaml`
 
-### 5. Package Readiness Review
+### 4. Readiness And Handoff Workflow
 
 역할:
 
@@ -240,22 +255,50 @@ generic workflow로는 아래가 가장 적합하다.
 
 출력:
 
-- review report
+- `readiness-report.md`
+- `handoff.packet.yaml`
+
+## Skill Position
+
+skill은 workflow를 이루는 세부 도구다.
+workflow보다 앞에 오면 안 된다.
+
+예를 들어 같은 workflow 안에서 아래 같은 세부 작업 도구를 둘 수 있다.
+
+- 입력 정규화
+- route 판정
+- framing 문서 작성
+- feature package 작성
+- readiness 판정
 
 ## Best Practical Rule
 
 한 번에 큰 spec을 쓰려고 하지 말고,
-항상 아래 순서로 줄여라.
+항상 workflow 단위로 줄여라.
 
 ```text
 raw input
--> normalized packet
--> framing docs if needed
--> feature package
--> readiness review
+-> intake and routing
+-> framing if needed
+-> feature package authoring
+-> readiness and handoff
 ```
+
+## Validation Order
+
+sample run이나 실제 도입 검증에서는 아래 순서로 본다.
+
+1. `input.packet.yaml`
+2. `route.decision.yaml`
+3. framing docs
+4. feature package
+5. `handoff.packet.yaml`
+
+앞 단계가 약하면 뒷단 문서가 좋아 보여도 전체 workflow는 약하다.
 
 ## Final Rule
 
-좋은 spec workflow는 글을 길게 쓰는 workflow가 아니다.
+좋은 spec workflow는 skill을 많이 나열하는 workflow가 아니다.
+하나의 일과 작업이 되는 몇 개의 큰 workflow를 두고,
+각 workflow가 다음 단계가 읽을 파일을 남기는 구조가 더 좋다.
 초기 입력을 점점 더 좁고 기계적으로 읽히는 형식으로 바꿔 가는 workflow다.

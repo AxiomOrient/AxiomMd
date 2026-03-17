@@ -76,8 +76,10 @@ acceptance는 tests, artifacts, traces, reconciliation 결과로만 닫는다.
 
 이 방법론을 따르는 저장소는 반드시 아래를 가져야 한다.
 
-- 짧은 routing 문서
+- route decision 문서
+- input packet
 - feature package 표준
+- readiness report
 - task와 eval linkage
 - decision log
 - handoff 가능한 상태

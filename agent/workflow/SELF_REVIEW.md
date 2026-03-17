@@ -3,10 +3,11 @@
 ## What is strong
 
 1. The package is small.
-2. Ownership is explicit.
-3. `evals.yaml` has a clear owner.
-4. Developer and Verifier conflict is handled by escalation, not guesswork.
-5. The workflow closes with reconcile, not just test pass.
+2. Workflow boundaries are explicit.
+3. Ownership is explicit.
+4. `evals.yaml` has a clear owner.
+5. Developer and Verifier conflict is handled by escalation, not guesswork.
+6. The workflow closes with reconcile, not just test pass.
 
 ## Final judgment
 

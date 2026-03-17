@@ -1,6 +1,6 @@
 packet_version: 1
 request_summary: "<what is being asked>"
-target_kind: "<feature-package|scoped-artifact|review|workflow-step>"
+target_kind: "<feature-package|product-framing|readiness-review|scoped-artifact>"
 source_context_refs: []
 output_contract_refs: []
 scope:

@@ -18,3 +18,5 @@ This document defines when execution must stop and who must decide next.
 8. blocking eval intent appears wrong
 9. risk posture changes
 10. another contributor cannot resume from repository files
+11. route says direct package but framing is clearly required
+12. readiness result is `hold`

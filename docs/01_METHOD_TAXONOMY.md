@@ -79,9 +79,12 @@
 최소 단위는 아래 묶음이다.
 
 ```text
-intent
--> spec package
--> plan
+input packet
+-> route decision
+-> optional framing docs
+-> feature package
+-> readiness
+-> approved package
 -> bounded execution
 -> verification
 -> reconcile
@@ -92,6 +95,8 @@ intent
 자연어는 입력이다.
 source of truth는 아래 묶음이다.
 
+- `input.packet.yaml`
+- `route.decision.yaml`
 - `package.yaml`
 - `requirements.yaml`
 - `invariants.yaml`
@@ -100,6 +105,12 @@ source of truth는 아래 묶음이다.
 - `evals.yaml`
 - `risks.yaml`
 - `decisions.jsonl`
+
+상황에 따라 아래가 추가된다.
+
+- `product-charter.md`
+- `system-blueprint.md`
+- `readiness-report.md`
 
 ## Why This Method Exists
 

@@ -5,6 +5,18 @@
 사람과 AI 에이전트가 같은 feature package를 읽고, 같은 방식으로 계획과 구현을 이어갈 수 있도록 최소 표준을 고정한다.
 이 문서는 특정 제품이 아닌 generic standard다.
 
+feature package는 보통 아래 흐름 안에서 만들어진다.
+
+```text
+input.packet.yaml
+-> route.decision.yaml
+-> optional product-charter.md + system-blueprint.md
+-> feature package
+-> readiness-report.md
+```
+
+즉 feature package는 단독 문서가 아니라 authoring workflow의 핵심 산출물이다.
+
 ## 표준 구조
 
 ```text
@@ -129,6 +141,15 @@ canonical truth는 아니다.
 - 최소 1개 이상의 `REQ-*`
 - 모든 `TASK-*`에 `REQ-*`와 `EVAL-*`가 연결됨
 
+그리고 package authoring workflow 바깥에는 아래가 같이 있어야 한다.
+
+- `input.packet.yaml`
+- `route.decision.yaml`
+- 필요하면 `product-charter.md`
+- 필요하면 `system-blueprint.md`
+- launch 직전에는 `readiness-report.md`
+- 가능하면 feature package validator를 통과한 상태
+
 ## authoring 규칙
 
 - 하나의 feature package는 하나의 bounded feature만 다룬다.
@@ -143,24 +164,59 @@ canonical truth는 아니다.
 - release-critical invariant는 hard eval 또는 deterministic proof가 있어야 한다.
 - task는 touched paths와 validation을 가져야 한다.
 
+## Reference Validation Surface
+
+generic package는 가능하면 아래 검사를 통과해야 한다.
+
+- file set check
+- requirement / task / eval linkage check
+- design section check
+- handoff packet check
+
+validator가 있다면 문서보다 먼저 validator를 통과해야 한다.
+
+이 저장소의 base validator 예시는 아래다.
+
+- `scripts/check_feature_package.rb`
+
+제품 저장소는 이 base 검사 위에 local overlay 검사를 더할 수 있다.
+하지만 generic base와 local overlay를 한 덩어리 진실로 섞지 않는 편이 좋다.
+
 ## handoff 규칙
 
-package는 긴 중단을 버텨야 한다.
+package authoring과 review는 긴 중단을 버텨야 한다.
 그래서 작업 중 멈출 때마다 아래가 file state에 남아 있어야 한다.
 
 - 현재 progress
 - 열려 있는 질문
 - 마지막 결정
 - 다음 step
+- 필요하면 `handoff.packet.yaml`
+
+`handoff.packet.yaml`의 `stage`는 workflow 이름을 써야 한다.
+예:
+
+- `framing`
+- `feature-package-authoring`
+- `readiness-and-handoff`
 
 ## 권장 흐름
 
 ```text
-intent.md
+input.packet.yaml + route.decision.yaml
+-> optional product-charter.md + system-blueprint.md
+-> intent.md
 -> package.yaml + requirements.yaml + invariants.yaml + risks.yaml
 -> design.md
 -> tasks.md
 -> evals.yaml
+-> readiness-report.md
 -> execution
 -> decisions.jsonl
 ```
+
+## Field Naming Rule
+
+artifact field 이름은 한 번 정했으면 쉽게 바꾸지 않는다.
+route decision, handoff packet 같은 공통 artifact에서 field 이름이 흔들리면
+workflow와 skill bundle이 바로 drift 난다.

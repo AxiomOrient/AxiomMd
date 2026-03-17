@@ -14,6 +14,7 @@ AxiomMd가 소유하는 것은 아래다.
 - generic skill design primitive
 - generic workflow input / output protocol
 - generic template
+- generic validator script
 - 문서 승격 / 정리 / 경계 유지 규칙
 
 AxiomMd가 소유하지 않는 것은 아래다.
@@ -38,10 +39,21 @@ AxiomMd가 소유하지 않는 것은 아래다.
 
 1. 제품명을 지워도 의미가 남는가
 2. 두 개 이상 제품에서 재사용 가능한가
-3. 특정 repo path 대신 generic contract로 설명 가능한가
+3. 특정 저장소 경로 대신 generic contract로 설명 가능한가
 4. 예시를 generic example로 바꿔도 손상이 없는가
 
 하나라도 “아니오”면 이 저장소 밖에 둔다.
+
+## Link Boundary
+
+이 저장소 문서는 다른 저장소의 파일을 직접 가리키지 않는다.
+
+- 절대경로 금지
+- 상대경로 금지
+- `pwd` 기반 경로 금지
+- 다른 저장소 파일 링크 금지
+
+필요한 내용이 있으면 링크하지 말고 여기 문서에 일반 규칙으로 다시 쓴다.
 
 ## Curation Rule
 
@@ -79,10 +91,11 @@ AxiomMd가 소유하지 않는 것은 아래다.
 10. `docs/09_PACKAGE_READINESS_GATE.md`
 11. `docs/10_WORKFLOW_IO_PROTOCOL.md`
 12. `docs/11_CLIENT_INTENT_TO_SPEC_WORKFLOW.md`
-13. `agent/workflow/README.md`
-14. `specs/README.md`
-15. `specs/SPEC_PACKAGE_STANDARD.md`
-16. `templates/**`
+13. `docs/12_SPEC_AUTHORING_WORKFLOW_SET.md`
+14. `agent/workflow/README.md`
+15. `specs/README.md`
+16. `specs/SPEC_PACKAGE_STANDARD.md`
+17. `templates/**`
 
 ## Current State
 
@@ -90,3 +103,4 @@ AxiomMd가 소유하지 않는 것은 아래다.
 - 제품 특화 output contract는 이 저장소가 소유하지 않는다.
 - 방법론의 개선은 observation을 generic asset으로 승격할 때만 이 저장소에 반영한다.
 - package가 구현-ready 상태인지 검토할 때는 `docs/09_PACKAGE_READINESS_GATE.md`를 먼저 통과해야 한다.
+- workflow나 skill 세트를 바꿨으면 샘플 입력으로 한 번 끝까지 통과시켜 보고 문서를 고친다.

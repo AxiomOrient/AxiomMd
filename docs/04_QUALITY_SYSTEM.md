@@ -25,11 +25,13 @@ AI는 좋은 코드만 빠르게 만들지 않는다.
 
 ### 1. Input Quality
 
-- request를 package로 컴파일한다
+- request를 먼저 `input.packet.yaml`로 정규화한다
+- route decision 없이 바로 package로 밀어 넣지 않는다
 - 모호함은 open question으로 남긴다
 
 ### 2. Plan Quality
 
+- framing이 필요하면 charter / blueprint로 먼저 좁힌다
 - 모든 task는 `REQ-*`와 `EVAL-*`를 가진다
 - scope expansion을 막는다
 
@@ -45,6 +47,7 @@ AI는 좋은 코드만 빠르게 만들지 않는다.
 - invariant check
 - regression check
 - risk check
+- readiness check
 
 ### 5. Reconciliation Quality
 
@@ -99,7 +102,8 @@ AI 실패는 먼저 모델 탓을 하지 않는다.
 
 | 시점 | 해야 할 정리 |
 | --- | --- |
-| task close | local cleanup, dead branch 제거, validation update |
+| workflow close | handoff packet, open question, next step 정리 |
+| task close | local cleanup, validation update |
 | feature close | duplication 정리, decisions 정리, package update |
 | periodic maintenance | repeated smell 정리, codemod 기회 발굴 |
 
