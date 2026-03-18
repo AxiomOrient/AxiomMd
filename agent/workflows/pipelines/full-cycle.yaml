@@ -18,3 +18,11 @@ outputs:
   - evidence.result.json
   - reconcile.result.yaml
   - handoff.packet.yaml
+
+gates:
+  - "intake-and-routing의 route 결과가 유효해야 함"
+  - "route가 framing-first면 framing이 실행되어야 함"
+  - "readiness-report.md에 명시적 상태가 있어야 함"
+  - "readiness-report.md.status == ready여야 execution-planning이 열림"
+  - "execution.plan.yaml이 존재해야 execution-and-evidence가 실행됨"
+  - "evidence.result.json이 존재해야 reconcile-and-close가 실행됨"

@@ -72,6 +72,7 @@ spec authoring workflow가 끝난 뒤에만 execution loop가 열린다.
 - `tasks.md`
 - `evals.yaml`
 - `decisions.jsonl`
+- `slices.yaml`
 
 ## Workflow I/O Rule
 

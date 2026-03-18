@@ -703,6 +703,7 @@ REQUIRED_RECONCILE_KEYS = [
     "stage", "status", "package_ref", "slice_ref", "evidence_refs",
     "decision_summary", "changed_paths", "next_action", "open_questions", "blockers",
 ]
+ALLOWED_RECONCILE_STATUSES = {"accepted", "patch-required", "relaunch", "hold"}
 
 def check_reconcile_result(path: Path) -> Result:
     r = Result(passed=True, target=str(path), stage="reconcile-result")
@@ -717,6 +718,8 @@ def check_reconcile_result(path: Path) -> Result:
         return r
     for k in REQUIRED_RECONCILE_KEYS:
         r.add(f"key_{k}", k in data, f"missing: {k}")
+    r.add("status_enum", data.get("status") in ALLOWED_RECONCILE_STATUSES,
+          f"got: {data.get('status')!r}, allowed: {sorted(ALLOWED_RECONCILE_STATUSES)}")
     for k in ["evidence_refs", "changed_paths", "open_questions", "blockers"]:
         r.add(f"{k}_list", isinstance(data.get(k), list))
     return r

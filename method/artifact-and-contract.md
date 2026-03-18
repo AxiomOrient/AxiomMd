@@ -43,6 +43,7 @@
 
 최소 필드:
 
+- `packet_version`
 - `request_summary`
 - `target_kind`
 - `source_context_refs`
@@ -60,6 +61,7 @@
 
 최소 필드:
 
+- `packet_version`
 - `input_ref`
 - `route`
 - `reason_summary`

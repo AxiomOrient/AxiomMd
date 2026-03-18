@@ -90,7 +90,12 @@ def is_id(value: str) -> bool:
 def collect_workflow_files(workflows_root: Path) -> List[Path]:
     if not workflows_root.exists():
         return []
-    return sorted([p for p in workflows_root.rglob("*.yaml") if p.is_file()])
+    excluded = {"pipelines", "schemas"}
+    return sorted([
+        p for p in workflows_root.rglob("*.yaml")
+        if p.is_file()
+        and not any(part in excluded for part in p.relative_to(workflows_root).parts)
+    ])
 
 
 def build_workflow_index(workflows_root: Path) -> Tuple[Dict[str, Path], Dict[str, Path], Dict[str, str], List[Check]]:
@@ -464,9 +469,29 @@ def validate_manifests(root: Path) -> Result:
     return result
 
 
-def simulate_pipeline(path: Path, workflow_root: Path, strict: bool = False) -> int:
+def simulate_pipeline(path: Path, workflow_root: Path, strict: bool = False, as_json: bool = False) -> int:
     result = validate_pipeline_schema(path, workflow_root, strict=strict)
-    emit_result(result, as_json=False)
+    emit_result(result, as_json=as_json)
+    if not as_json:
+        try:
+            data = read_yaml(path)
+            stages = data.get("stages", [])
+            print("\nExecution sequence")
+            for i, stage in enumerate(stages):
+                ref = stage.get("workflow", "?")
+                cond = stage.get("condition")
+                line = f"  {i + 1}. {ref}"
+                if cond:
+                    line += f"  [if: {cond}]"
+                print(line)
+            gates = data.get("gates", [])
+            if gates:
+                print("\nGates")
+                for g in gates:
+                    print(f"  • {g}")
+        except Exception:
+            pass
+        print("\nNo actual side effects are executed. This mode is for plan inspection only.")
     return 0 if result.passed else 1
 
 
@@ -556,12 +581,12 @@ def run_cli(argv: Optional[List[str]] = None) -> int:
     if args.kind != "pipeline":
         return parser.error("simulate mode currently supports only pipeline")
 
-    result = simulate_pipeline(Path(args.path).resolve(), workflow_root=workflow_root, strict=args.strict)
-    if not args.json:
-        print("\nExecution sequence")
-        print("•  " + "\n•  ".join([str(Path(args.path).resolve())]))
-        print("No actual side effects are executed. This mode is for plan inspection only.")
-    return result
+    return simulate_pipeline(
+        Path(args.path).resolve(),
+        workflow_root=workflow_root,
+        strict=args.strict,
+        as_json=args.json,
+    )
 
 
 def main():
