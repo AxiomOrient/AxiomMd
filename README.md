@@ -126,7 +126,6 @@ AxiomMd가 소유하지 않는 것은 아래다.
 | `agent/workflows/schemas/` | workflow/pipeline 스키마 + 조건식 가이드 |
 | `standards/spec-package-standard.md` | generic spec package 구조 표준 |
 | `templates/**` | 새 package나 work item 시작 템플릿 |
-| `profiles/axiom-specs/` | AxiomSpecs 제품 전용 profile (axiom-v1) — generic 커널 확장 예시 |
 | `scripts/workflow_check.py` | artifact contract 검증 진입점 |
 | `scripts/workflow_runner.py` | workflow/pipeline 선언형 실행 정의 정합성 검증 진입점 |
 

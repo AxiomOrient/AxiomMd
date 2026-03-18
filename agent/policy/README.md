@@ -4,8 +4,6 @@
 
 이 패키지는 spec-driven agentic execution에 필요한 최소 실행 계약을 고정한다.
 
-과거 경로 `agent/workflow/`에서 정책 문서군을 분리해 `agent/policy/`로 이동했다.
-
 ## Included Files
 
 | 파일 | 역할 |
