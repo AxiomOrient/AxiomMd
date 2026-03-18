@@ -1,17 +1,21 @@
 feature_id: FEAT-0000
+slug: short-slug
 title: ""
-status: proposed
-summary: ""
-problem: ""
-goals: []
-non_goals: []
-scope:
-  in: []
-  out: []
-owners: []
-source_of_truth_refs: []
-depends_on: []
-profile_key: ""
-profile_version: ""
+state: draft
+review_mode: human_required
+profile_key: axiom-v1
+planes:
+  - source
+implementation_order: 0
+owner_roles:
+  - product
+target_repos:
+  - AxiomSpecs
+adoption:
+  generic-methodology: direct-use
+proof_state: not_proven
+current_progress: ""
+next_step: ""
+blockers: []
 readiness_class: implementation
 notes: []

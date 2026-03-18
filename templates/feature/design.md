@@ -1,33 +1,32 @@
 # Design
 
-## Goal
+## Boundary
 
-<what this design enables>
+### In Scope
 
-## Boundaries
+- <what is inside this feature>
 
-<what is inside this feature and what is outside>
+### Out of Scope
+
+- <what is outside this feature>
 
 ## Data and State
 
-<important state, transitions, and constraints>
+- <important state, transitions, and constraints>
 
 ## Interfaces
 
-<API, UI, CLI, event, or file interface changes>
+- <API, UI, CLI, event, or file interface changes>
 
 ## Failure Modes
 
-<what can go wrong and how it should fail>
+- <what can go wrong and how it should fail>
 
-## Rollout Notes
+## Mapping to Requirements
 
-<migration or staged rollout notes if needed>
+- REQ-0001 -> <design element>
 
 ## Alternatives Rejected
 
 - <alternative> — rejected because ...
 
-## Mapping to Requirements
-
-- REQ-0001 -> <design element>

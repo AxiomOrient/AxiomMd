@@ -8,11 +8,17 @@ policy:
 evals:
   - id: EVAL-0001
     title: "<what is verified>"
-    kind: contract
+    kind: blocking
     blocking: true
     hard: true
-    req_ids: [REQ-0001]
+    req_ids:
+      - REQ-0001
     inv_ids: []
-    task_ids: [TASK-0001]
+    task_ids:
+      - TASK-0001
+    procedure:
+      - "<step 1>"
+      - "<step 2>"
+    pass_condition: "<condition that proves this eval is passed>"
     command: "<local command>"
     expected_artifacts: []

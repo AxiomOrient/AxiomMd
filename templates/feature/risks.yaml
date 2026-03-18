@@ -1,7 +1,5 @@
 risks:
   - id: RISK-0001
-    category: correctness
+    title: "<risk title>"
     severity: medium
-    summary: "<risk>"
     mitigation: "<mitigation>"
-    review_mode: human_required

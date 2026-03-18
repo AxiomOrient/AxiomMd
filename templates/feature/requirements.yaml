@@ -3,7 +3,8 @@ title: "<feature title>"
 
 requirements:
   - id: REQ-0001
-    story: "<actor> can <behavior>"
+    title: "<brief requirement title>"
+    statement: "<actor> can <behavior>"
     priority: must
     acceptance:
       - "<observable acceptance criterion>"

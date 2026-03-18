@@ -9,8 +9,8 @@
 - [ ] TASK-0001 <short title>
   - req_ids: [REQ-0001]
   - eval_ids: [EVAL-0001]
-  - paths: [<path>]
-  - done_when: <what proves completion>
+  - touched_paths: [<path>]
+  - next: <what proves completion>
 
 ## Progress
 

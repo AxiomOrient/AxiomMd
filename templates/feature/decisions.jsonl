@@ -1,1 +1,1 @@
-{"ts":"<ISO-8601>","decision_id":"DEC-0001","feature_id":"FEAT-xxxx","type":"<decision-type>","summary":"<what changed>","req_ids":["REQ-0001"],"eval_ids":["EVAL-0001"]}
+{"id":"DEC-0001","ts":"<ISO-8601>","summary":"<what changed>","reason":"<why this decision was made>"}

@@ -7,4 +7,5 @@ slices:
     eval_ids: []
     done_conditions: []
     verification_checks: []
+    budget: {}
     approval_mode: ""
