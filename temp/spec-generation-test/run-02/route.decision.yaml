@@ -1,0 +1,14 @@
+packet_version: 1
+input_ref: "input.packet.yaml"
+route: "direct-package"
+reason_summary: "요청이 하나의 bounded feature이며, PRD 입력을 기반으로 곧바로 feature package 저수준 구현 설계로 진입 가능함."
+required_artifacts:
+  - "package.yaml"
+  - "requirements.yaml"
+  - "design.md"
+  - "tasks.md"
+  - "evals.yaml"
+  - "slices.yaml"
+next_step: "feature-package-authoring"
+open_questions: []
+blockers: []

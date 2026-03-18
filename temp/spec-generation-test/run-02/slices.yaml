@@ -1,0 +1,35 @@
+slices:
+  - slice_id: SLICE-AXM-0001
+    feature_id: FEAT-0001
+    path_scope:
+      - "temp/spec-generation-test/run-02"
+      - "templates"
+      - "agent/skills"
+      - "src/ui"
+    req_ids:
+      - REQ-0001
+      - REQ-0002
+      - REQ-0003
+    task_ids:
+      - TASK-0001
+      - TASK-0002
+      - TASK-0003
+    eval_ids:
+      - EVAL-0001
+      - EVAL-0002
+      - EVAL-0003
+    done_conditions:
+      - "workflow_check package + pipeline 통과"
+      - "TUI에서 체크포인트 상태 확인 가능"
+      - "중단 후 file cache로 resume 성공"
+    verification_checks:
+      - "workflow_check.py package ... --json"
+      - "workflow_check.py pipeline ... --json"
+      - "resume smoke test"
+    budget:
+      token_budget:
+        codex: 350000
+        gemini: 220000
+        claude: 220000
+      wall_clock_sec: 7200
+    approval_mode: "human_required"

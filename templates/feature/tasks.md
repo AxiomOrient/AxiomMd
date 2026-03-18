@@ -1,25 +1,16 @@
-# Tasks
+tasks:
+  - id: TASK-0001
+    title: "<short task title>"
+    req_ids:
+      - REQ-0001
+    eval_ids:
+      - EVAL-0001
+    touched_paths:
+      - "<path>"
+    next: "<what proves completion>"
+    done_when: "<same as next>"
 
-## Objective
-
-<what this task plan delivers>
-
-## Task List
-
-- [ ] TASK-0001 <short title>
-  - req_ids: [REQ-0001]
-  - eval_ids: [EVAL-0001]
-  - touched_paths: [<path>]
-  - next: <what proves completion>
-
-## Progress
-
-- Not started
-
-## Open Questions
-
-- <question>
-
-## Next Step
-
-- <smallest next action>
+# Optional guidance
+# - Add additional task entries as needed (TASK-0002, TASK-0003 ...).
+# - Keep each task linked to at least one existing REQ-xxxx and EVAL-xxxx.
+# - Keep touched_paths aligned to implementation files/components impacted by this task.

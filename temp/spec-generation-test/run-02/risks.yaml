@@ -1,0 +1,15 @@
+risks:
+  - id: RISK-0001
+    title: "Agent API drift"
+    severity: medium
+    mitigation: "pin CLI protocol version and validate command outputs at startup"
+
+  - id: RISK-0002
+    title: "Template drift"
+    severity: high
+    mitigation: "diff-based gate before package generation and explicit contract snapshots"
+
+  - id: RISK-0003
+    title: "Insufficient resume semantics"
+    severity: medium
+    mitigation: "persist stage checkpoints and deterministic resume target derivation"

@@ -1,0 +1,4 @@
+{"id":"DEC-0001","ts":"2026-03-18T00:00:00Z","summary":"AxiomMd contract-first template baseline as generation target","reason":"PRD 요구사항이 contract-first 품질 게이트를 충족해야 함"}
+{"id":"DEC-0002","ts":"2026-03-18T00:00:01Z","summary":"target_kind을 feature-package로 고정","reason":"strict mode 검증에서 feature-package 전용 경로를 요구"}
+{"id":"DEC-0003","ts":"2026-03-18T00:00:02Z","summary":"requirements 우선순위를 must/should로 구분","reason":"must 요구사항과 blocking eval 연결을 검증하기 위함"}
+{"id":"DEC-0004","ts":"2026-03-18T00:00:03Z","summary":"UI/UX 요구사항을 REQ-0003로 별도 등록","reason":"단일 화면 없는 이전 Symphony 스타일 대비 업그레이드 조건 반영"}

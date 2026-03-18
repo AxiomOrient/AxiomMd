@@ -6,13 +6,18 @@ review_mode: human_required
 profile_key: axiom-v1
 planes:
   - source
+  - compile
+  - execution
+  - control
+  - governance
+  - reconcile
 implementation_order: 0
 owner_roles:
   - product
+  - engineering
 target_repos:
   - AxiomSpecs
-adoption:
-  generic-methodology: direct-use
+adoption: direct-use
 proof_state: not_proven
 current_progress: ""
 next_step: ""

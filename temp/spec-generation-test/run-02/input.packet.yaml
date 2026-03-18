@@ -1,0 +1,29 @@
+packet_version: 1
+request_summary: "Generate a Rust CLI called axm that orchestrates workflow-step skill execution, validates contract artifacts, and provides a TUI status surface with file-cache based resume checkpoints for authoring and readiness handoffs."
+target_kind: "feature-package"
+source_context_refs:
+  - "plans/axiom-spec-gen-prd.md"
+  - "agent/skills/feature-package-author/SKILL.md"
+output_contract_refs:
+  - "templates/input.packet.yaml"
+  - "method/workflow-io-protocol.md"
+  - "scripts/workflow_check.py"
+scope:
+  in:
+    - "Raw feature brief + workflow contracts"
+    - "Codex/Gemini/Claude dispatch compatibility"
+  out:
+    - "Implementation-ready feature package for axm"
+    - "Structured handoff with resume checkpoints"
+constraints:
+  - "Must produce explicit spec artifacts with contract validation feedback"
+  - "Must support --strict and --json check modes"
+  - "Must provide clear resume points through TUI status and file cache persistence"
+  - "Must keep command UX safe: read-only checks and explicit approval gates"
+done_signals:
+  - "feature package artifacts pass workflow_check"
+  - "TUI status and file-cache checkpoint recovery are defined in design/evals"
+open_questions:
+  - "Should file-cache checkpoint retention be per-run-id or per-feature-id by default?"
+evidence_refs:
+  - "temp/spec-generation-test/run-02/checks.log"
