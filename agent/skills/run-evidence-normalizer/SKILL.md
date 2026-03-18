@@ -1,6 +1,6 @@
 ---
 name: run-evidence-normalizer
-description: Normalize one bounded run result into one Axiom-aligned evidence bundle for one selected package slice. Use after execution artifacts exist and before reconcile review. Do not use for package authoring, package readiness review, compile-only work, or final reconcile classification.
+description: Normalize one bounded run result into one structured evidence bundle for one selected package slice. Use after execution artifacts exist and before reconcile review. Do not use for package authoring, package readiness review, compile-only work, or final reconcile classification.
 ---
 
 # Run Evidence Normalizer
@@ -8,11 +8,7 @@ description: Normalize one bounded run result into one Axiom-aligned evidence bu
 ## Purpose
 
 Produce exactly one normalized **evidence bundle**
-for exactly one executed **AxiomSpecs slice**.
-
-AxiomMd owns the generic evidence artifact class.
-AxiomSpecs owns Axiom-local evidence and run-outcome meaning.
-This bundle carries only the installed skill behavior and minimum owner summaries it needs.
+for exactly one executed **package slice**.
 
 This is a **review and normalization skill**.
 It MUST NOT silently edit package source files.
@@ -20,10 +16,9 @@ It closes only the evidence stage and emits the evidence-stage handoff.
 
 ## Read First
 
-1. [references/OWNER_CONTRACTS_SUMMARY.md](references/OWNER_CONTRACTS_SUMMARY.md)
-2. [references/RUN_OUTCOME_SUMMARY.md](references/RUN_OUTCOME_SUMMARY.md)
-3. [assets/evidence.result.json](assets/evidence.result.json)
-4. [assets/evidence-checklist.md](assets/evidence-checklist.md)
+1. [references/EXECUTION_CONTRACT_SUMMARY.md](references/EXECUTION_CONTRACT_SUMMARY.md)
+2. [assets/evidence.result.json](assets/evidence.result.json)
+3. [assets/evidence-checklist.md](assets/evidence-checklist.md)
 
 ## Use This Skill When
 
@@ -54,7 +49,7 @@ Optional inputs:
 - `output_handoff_path`
 
 The following evidence facts MUST be derivable from the selected slice,
-the run root, the execution plan when present, or bundled owner summaries:
+the run root, the execution plan when present:
 
 - `feature_id`
 - `package_ref`
@@ -96,8 +91,8 @@ Write:
 
 Default paths:
 
-- `${output_path:-/evidence.result.json}`
-- `${output_handoff_path:-/handoff.packet.yaml}`
+- `${output_path:-./evidence.result.json}`
+- `${output_handoff_path:-./handoff.packet.yaml}`
 
 This evidence-stage handoff does not replace reconcile review.
 It only closes normalization of one bounded run result.
@@ -123,17 +118,11 @@ It only closes normalization of one bounded run result.
 - `${package_path}/evals.yaml`
 - `${execution_plan_path}` when provided
 - `${run_input_root}/**`
-- bundled owner-summary docs in `references/**`
 
 ## Write Paths
 
-- `${output_path:-/evidence.result.json}`
-- `${output_handoff_path:-/handoff.packet.yaml}`
-
-## Output Target
-
-- one normalized `evidence.result.json`
-- one evidence-stage `handoff.packet.yaml`
+- `${output_path:-./evidence.result.json}`
+- `${output_handoff_path:-./handoff.packet.yaml}`
 
 ## Workflow
 

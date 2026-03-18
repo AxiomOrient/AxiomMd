@@ -1,0 +1,37 @@
+id: execution-and-evidence
+layer: execution
+description: >
+  실행 산출물(실제 실행 로그/산출물)을 evidence로 정규화한다.
+
+inputs:
+  - package.yaml
+  - slices.yaml
+  - execution.plan.yaml
+  - run_input_root
+
+skills:
+  - id: run-evidence-normalizer
+    reads:
+      - package.yaml
+      - slices.yaml
+      - requirements.yaml
+      - tasks.md
+      - evals.yaml
+      - execution.plan.yaml
+      - run_input_root
+    writes:
+      - evidence.result.json
+      - handoff.packet.yaml
+
+outputs:
+  - evidence.result.json
+  - handoff.packet.yaml
+
+acceptance:
+  - "evidence.result.json includes run_id, verification_results, changed_paths"
+  - "handoff.packet.yaml has evidence stage provenance"
+
+policies:
+  - policy/EXECUTION_POLICY.md
+  - policy/ROLE_POLICY.md
+  - policy/ESCALATION_POLICY.md

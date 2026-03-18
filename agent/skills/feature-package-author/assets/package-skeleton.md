@@ -1,7 +1,7 @@
 # Package Skeleton
 
 아래 skeleton은 **shape guide**다. 실제 산출물은 각 파일로 나뉘어 저장해야 한다.
-current AxiomSpecs package examples를 따르되, owner repo evidence가 더 강하면 그 evidence를 우선한다.
+Profile이 제공된 경우, profile manifest에 따라 추가 필드를 적용한다.
 
 ## intent.md
 
@@ -37,29 +37,21 @@ current AxiomSpecs package examples를 따르되, owner repo evidence가 더 강
 
 ## package.yaml
 
+Generic minimum (no profile):
+
 ```yaml
-feature_id: FEAT-xxxx
+id: <unique-identifier>
 slug: short-slug
 title: ""
 state: draft
-review_mode: human_required
-profile_key: axiom-v1
-planes:
-  - source
-implementation_order: 0
-owner_roles:
-  - product
-target_repos:
-  - AxiomSpecs
-adoption:
-  generic-methodology: direct-use
-current_progress: package draft created
-next_step: fill requirements/tasks/evals linkage
-blockers: none
+layer: feature
 ```
 
+When a profile is active, the profile manifest defines additional required fields.
+Generic fields must always be present regardless of profile.
+
 `package.yaml`은 package truth의 진행 상태를 남기는 metadata surface다.
-review result를 직접 쓰라는 뜻은 아니고, current progress / next step / blockers를 유지하라는 뜻이다.
+current progress / next step / blockers를 유지하라는 뜻이다.
 
 ## requirements.yaml
 
@@ -125,8 +117,8 @@ tasks:
     eval_ids:
       - EVAL-xxxx
     touched_paths:
-      - specs/features/FEAT-xxxx-short-slug/...
-    next: ...
+      - <relative-path-estimate>
+    done_when: ...
 ```
 
 ## evals.yaml
@@ -164,11 +156,22 @@ risks:
 {"id":"DEC-xxxx","ts":"YYYY-MM-DD","summary":"Package initialized from normalized input packet.","reason":"Start bounded feature package authoring."}
 ```
 
-## contracts/
+## slices.yaml
 
-```text
-specs/features/FEAT-xxxx-short-slug/contracts/
+```yaml
+slices:
+  - id: SLICE-xxxx
+    title: ""
+    path_scope:
+      - <relative-path>
+    req_ids:
+      - REQ-xxxx
+    task_ids:
+      - TASK-xxxx
+    eval_ids:
+      - EVAL-xxxx
+    done_conditions:
+      - ...
+    approval_mode: human_required
+    budget: ~
 ```
-
-빈 directory라도 남겨 current AxiomSpecs package shape를 맞춘다.
-새 schema/example이 아직 없더라도, directory presence는 유지한다.

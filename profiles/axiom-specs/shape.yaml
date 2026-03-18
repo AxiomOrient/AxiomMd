@@ -1,0 +1,113 @@
+profile_key: axiom-v1
+profile_name: AxiomSpecs
+description: |
+  Profile manifest for the AxiomSpecs product.
+  Extends the generic AxiomMd feature package contract with Axiom-specific fields,
+  path conventions, validators, and compile facts.
+  The generic kernel contract is always the floor; this profile adds product-specific shape on top.
+
+# ────────────────────────────────────────────────
+# Additional required package.yaml fields
+# (beyond generic: id, slug, title, state, layer)
+# ────────────────────────────────────────────────
+required_package_fields:
+  - feature_id          # AxiomSpecs uses feature_id; maps to generic id
+  - review_mode         # always: human_required
+  - profile_key         # always: axiom-v1
+  - planes              # one or more: source|compile|execution|control|governance|reconcile
+  - implementation_order
+  - owner_roles
+  - target_repos
+  - adoption
+  - proof_state         # not_proven | reference_slice_proven | runtime_proven | reconciled
+  - readiness_class     # implementation | governance | reconcile (required by workflow_check.py)
+  - current_progress
+  - next_step
+  - blockers
+
+# ────────────────────────────────────────────────
+# Additional required package files/directories
+# (beyond generic required file set)
+# ────────────────────────────────────────────────
+required_files:
+  - contracts/
+
+# ────────────────────────────────────────────────
+# Path conventions
+# ────────────────────────────────────────────────
+path_conventions:
+  feature_dir_pattern: "specs/features/FEAT-{id_number}-{slug}"
+  target_repos_default:
+    - AxiomSpecs
+
+# ────────────────────────────────────────────────
+# Validator
+# ────────────────────────────────────────────────
+validator: "python $AXIOM_MD/scripts/workflow_check.py package {feature_dir} --base-dir {axiomspecs_root}"
+
+# ────────────────────────────────────────────────
+# Compile facts (additional beyond generic)
+# ────────────────────────────────────────────────
+required_compile_facts:
+  - profile_key
+  - proof_state
+
+# ────────────────────────────────────────────────
+# Profile-defined planes
+# ────────────────────────────────────────────────
+planes:
+  baseline:
+    - source
+    - compile
+    - execution
+    - control
+    - governance
+    - reconcile
+
+# ────────────────────────────────────────────────
+# Profile-defined adoption modes
+# ────────────────────────────────────────────────
+adoption:
+  baseline_modes:
+    - direct-use
+    - direct-use-authoring-only
+    - direct-use-execution-only
+    - semantic-direct-use
+    - renewal-base
+    - reference-only
+
+# ────────────────────────────────────────────────
+# proof_state lifecycle
+# ────────────────────────────────────────────────
+proof_state:
+  values:
+    - not_proven
+    - reference_slice_proven
+    - runtime_proven
+    - reconciled
+
+# ────────────────────────────────────────────────
+# Optional authoring.request.yaml overlay
+# ────────────────────────────────────────────────
+authoring_request:
+  supported: true
+  description: >
+    Optional product-local overlay for create-mode metadata.
+    Use when product-local fields would otherwise be packed into free-form constraints.
+  template: assets/authoring.request.yaml
+  validator: "python $AXIOM_MD/scripts/workflow_check.py authoring-request {path}"
+
+# ────────────────────────────────────────────────
+# Source truth references (for skill context)
+# ────────────────────────────────────────────────
+source_refs:
+  - AxiomSpecs/README.md
+  - AxiomSpecs/docs/03_SERVICE_SPEC.md
+  - AxiomSpecs/specs/STANDARD_STACK.md
+  - AxiomSpecs/profiles/axiom-v1/profile.yaml
+  - AxiomSpecs/profiles/axiom-v1/package-and-readiness.shape.yaml
+  - AxiomSpecs/profiles/axiom-v1/slice.shape.yaml
+  - AxiomSpecs/profiles/axiom-v1/run-outcome.shape.yaml
+  - AxiomSpecs/specs/README.md
+  - AxiomSpecs/scripts/check_specs
+  - AxiomSpecs/specs/features/FEAT-0001-manual-execution-contract/requirements.yaml

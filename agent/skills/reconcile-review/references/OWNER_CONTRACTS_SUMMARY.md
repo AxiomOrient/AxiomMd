@@ -9,9 +9,9 @@
 다만 skill이 잘못된 저장소에 의미를 덧씌우지 않도록
 경계를 짧고 강하게 유지한다.
 
-## Two-Repo Split
+## Ownership Split
 
-### `AxiomMd`
+### `AxiomMd` (generic kernel)
 
 소유:
 
@@ -25,26 +25,25 @@
 - generic templates
 - generic workflow validator entrypoint
 - production 스킬 번들 (`agent/skills/`)
-- 스킬 runtime reference 문서 (`agent/references/`)
+- 스킬 runtime reference 문서
 
 소유하지 않음:
 
-- Axiom-specific package shape
-- Axiom product truth
-- Axiom local profile implementation
-- Axiom runtime semantics
+- product-specific package shape
+- product truth
+- product local profile implementation
+- product runtime semantics
 
-### `AxiomSpecs`
+### Product Repo (profile owner)
 
-소유:
+When a profile is active, the product repo owns:
 
-- Axiom product truth
-- canonical Axiom service spec
-- Axiom feature package shape
-- Axiom local output profile
-- Axiom readiness meaning
-- Axiom slice meaning
-- Axiom execution / evidence / reconcile outcome semantics
+- product truth
+- product-specific package shape extensions
+- product local output profile
+- product readiness meaning extensions
+- product slice meaning extensions
+- product execution / evidence / reconcile outcome semantics
 
 소유하지 않음:
 
@@ -59,10 +58,8 @@
 1. `AxiomMd`
    - generic workflow, artifact, handoff, package-standard 문제
    - skill bundle, local summary, checklist 문제
-2. `AxiomSpecs`
-   - Axiom package, local profile, readiness, run-outcome 문제
-
-즉 이 repo가 owner repo를 이기지 못한다.
+2. Product profile repo
+   - product package, local profile, readiness, run-outcome 문제
 
 ## Workflow Boundary
 
@@ -119,7 +116,7 @@ closed-loop path의 기본 단위는 package 전체가 아니라 **selected slic
 
 따라서 후반부 skill은 반드시 아래를 보존해야 한다.
 
-- `feature_id`
+- `feature_id` (or `id`)
 - `package_ref`
 - `slice_id`
 - `req_ids`

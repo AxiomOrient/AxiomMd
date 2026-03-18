@@ -1,0 +1,38 @@
+id: execution-planning
+layer: execution
+description: >
+  approval된 package/slice를 bounded execution bundle로 컴파일한다.
+
+inputs:
+  - package_path
+  - package.yaml
+  - slices.yaml
+  - route.decision.yaml
+  - handoff.packet.yaml
+
+skills:
+  - id: manual-contract-compiler
+    reads:
+      - package_path
+      - package.yaml
+      - slices.yaml
+      - requirements.yaml
+      - tasks.md
+      - evals.yaml
+      - design.md
+    writes:
+      - execution.plan.yaml
+      - handoff.packet.yaml
+
+outputs:
+  - execution.plan.yaml
+  - handoff.packet.yaml
+
+acceptance:
+  - "execution.plan.yaml has package_ref, slice_ref, req_ids, task_ids, eval_ids"
+  - "컴파일 산출물의 scope가 선택 slice에 제한됨"
+
+policies:
+  - policy/EXECUTION_POLICY.md
+  - policy/ROLE_POLICY.md
+  - policy/ESCALATION_POLICY.md

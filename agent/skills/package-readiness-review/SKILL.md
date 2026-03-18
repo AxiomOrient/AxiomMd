@@ -1,15 +1,13 @@
 ---
 name: package-readiness-review
-description: Review one AxiomSpecs feature package against the AxiomMd readiness gate and emit an AxiomMd handoff packet, with an optional human-readable review note. Use when deciding ready vs patch-required vs hold. Do not use for authoring or product-roadmap work.
+description: Review one feature package against the readiness gate and emit a handoff packet with an optional human-readable review note. Use when deciding ready vs patch-required vs hold. Do not use for authoring or product-roadmap work.
 ---
 
 # Package Readiness Review
 
 ## Purpose
 
-Produce a deterministic readiness decision for exactly one **AxiomSpecs feature package**.
-AxiomMd owns the review-stage handoff packet; AxiomSpecs owns the package shape and readiness meaning.
-This bundle carries the minimum owner summaries it needs and must not fetch GitHub content at runtime.
+Produce a deterministic readiness decision for exactly one **feature package**.
 
 This is a **review-only skill**.
 It MUST NOT silently edit package files unless the user explicitly asks for a separate repair pass.
@@ -42,11 +40,21 @@ Required inputs:
 - optional `output_handoff_path`
 - optional `output_review_note_path`
 - optional `focus`: `full`, `linkage-only`, `handoff-only`
+- optional `profile_manifest_path` — if provided, apply profile-specific gate extensions
 
 The skill MUST read the package files directly from the package path.
 It MUST NOT assume chat notes are the truth.
 If `output_handoff_path` is omitted, write `handoff.packet.yaml` next to the package being reviewed.
-Example: `specs/features/FEAT-xxxx-slug/handoff.packet.yaml`
+
+## Profile Resolution
+
+If `profile_manifest_path` is provided:
+
+1. Load the profile manifest.
+2. Apply any profile-specific additional gate checks on top of the generic gates.
+3. The profile cannot remove generic required gates — only extend them.
+
+If no profile is provided, apply generic gates only.
 
 ## Output Contract
 
@@ -68,12 +76,11 @@ The handoff packet MUST include:
 - default path: `<package_path>/readiness-report.md`
 - custom path: specify `output_review_note_path` to override the default
 - this human-readable gate breakdown is the canonical readiness record for the package
-- AxiomSpecs FEAT-0001 allows the gate result to remain in `package.yaml` as a supplement; the canonical record is this file
 
 ## Status Semantics
 
 - `ready`
-  - owner checker passes and the package is usable for the next workflow step
+  - all gates pass and the package is usable for the next workflow step
 - `patch-required`
   - package exists and is readable, but at least one gate is incomplete and can be repaired in source
 - `hold`
@@ -83,7 +90,7 @@ The handoff packet MUST include:
 
 ## Review Rules
 
-- Gate 1 checks the required file set, including `contracts/`.
+- Gate 1 checks the required file set.
 - Gate 2 checks requirement/task/eval linkage completeness and package metadata.
 - Gate 3 checks bounded scope, design completeness, and implementation-local leakage.
 - Gate 4 checks review mode and risk/approval posture.
@@ -94,22 +101,19 @@ The handoff packet MUST include:
 - If review cannot determine a gate status because evidence is missing, stop with a blocker note instead of inventing a false verdict.
 - Do not rename IDs in the review note. Report the exact broken IDs.
 - Do not collapse multiple failures into vague prose.
-- Use `workflow_check.py package` as the structural baseline, then add the remaining gate analysis from the owned docs.
+- Use `workflow_check.py ensure-layer` then `workflow_check.py package` as the structural baseline, then add the remaining gate analysis.
+- If a profile is active, run any profile-specified validator after generic gates pass.
 
 ## Read Paths
 
 - target feature package files
-- bundled owner-summary docs and `workflow_check.py` from AxiomMd
+- `workflow_check.py` from AxiomMd toolkit
 - optional `input_ref` when the review is tied to a known upstream packet
+- profile manifest when provided
 
 ## Write Paths
 
 - review output files only: `handoff.packet.yaml` and optional Markdown review note
-
-## Output Target
-
-- one authoritative AxiomMd handoff packet (stage: readiness-and-handoff)
-- one canonical readiness-report.md
 
 ## Minimal Output Writing Guide
 
@@ -126,16 +130,20 @@ The handoff packet MUST include:
 
 ## Workflow
 
-> `$AXIOM_MD` = path to the AxiomMd repository root. Steps using this variable require the AxiomMd toolkit to be available locally.
+> `$AXIOM_MD` = path to the AxiomMd repository root.
 
 1. Run:
-   `python $AXIOM_MD/scripts/workflow_check.py package <feature-dir> --base-dir <AxiomSpecs>`
-2. Inspect the target package files directly.
-3. Fill `handoff.packet.yaml` with evidence-backed `status`, `evidence_refs`, `next_step`, and `blockers`.
-4. Run:
-   `python $AXIOM_MD/scripts/workflow_check.py handoff <path/to/handoff.packet.yaml> --base-dir <AxiomSpecs>`
-5. Write `readiness-report.md` from [assets/review-report-template.md](assets/review-report-template.md) with the full gate breakdown.
-6. Stop only when both the handoff packet and readiness-report.md are written and the verdict is explicit.
+   `python $AXIOM_MD/scripts/workflow_check.py ensure-layer <package-dir>`
+2. Run:
+   `python $AXIOM_MD/scripts/workflow_check.py package <package-dir>`
+3. Inspect the target package files directly.
+   (`layer` 누락이 확인되면, 이 스킬은 직접 수정하지 않는다.)
+4. If a profile is provided, resolve and apply profile gate extensions.
+5. Fill `handoff.packet.yaml` with evidence-backed `status`, `evidence_refs`, `next_step`, and `blockers`.
+6. Run:
+   `python $AXIOM_MD/scripts/workflow_check.py handoff <path/to/handoff.packet.yaml>`
+7. Write `readiness-report.md` from [assets/review-report-template.md](assets/review-report-template.md) with the full gate breakdown.
+8. Stop only when both the handoff packet and readiness-report.md are written and the verdict is explicit.
 
 ## Stop Conditions
 
@@ -144,7 +152,7 @@ Stop and return a blocker note if:
 - `package_path` is missing
 - the target directory is not a feature package directory
 - required files cannot be read
-- repository evidence is insufficient to determine a gate status
+- evidence is insufficient to determine a gate status
 
 ## Final Rule
 

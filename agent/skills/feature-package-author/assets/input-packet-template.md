@@ -1,6 +1,6 @@
 # Input Packet Contract
 
-`feature-package-author`는 AxiomMd가 소유한 `input.packet.yaml` envelope를 입력으로 받는다.
+`feature-package-author`는 `input.packet.yaml` envelope를 입력으로 받는다.
 정확한 필드 집합은 [assets/input.packet.yaml](input.packet.yaml)의 top-level shape를 따른다.
 
 ## Required Envelope
@@ -20,25 +20,21 @@
 ## Target-Kind Rule
 
 - `target_kind` SHOULD be `feature-package`.
-- `mode=create|update`와 `target_feature_path=specs/features/FEAT-xxxx-slug`는 `constraints`에 명시하거나 기존 package 경로에서 유도한다.
+- `mode=create|update`와 `target_feature_path`는 `constraints`에 명시하거나 기존 package 경로에서 유도한다.
 
-## AxiomSpecs Authoring Facts
+## Required Authoring Facts
 
 아래 값은 top-level key를 새로 추가하지 말고, packet 내용 또는 기존 package/source evidence에서 **유도 가능해야 한다**.
 
-- `feature_id`
+- `feature_id` (or `id`)
 - `slug`
 - `title`
-- `implementation_order`
-- `profile_key`
-- `review_mode`
-- `planes`
-- `owner_roles`
-- `target_repos`
-- `adoption`
 - problem statement
 - `in_scope`
 - `out_of_scope`
+
+Profile이 제공된 경우, profile-required 추가 authoring facts도 유도 가능해야 한다.
+Profile-specific 값(예: `profile_key`, `planes`, `owner_roles`)은 `constraints`에서 넘긴다.
 
 권장 encoding:
 
@@ -46,7 +42,7 @@
 - `request_summary`: title + short summary
 - `scope.in` / `scope.out`: in-scope, out-of-scope
 - `source_context_refs` / `evidence_refs`: target repo 안의 current truth paths
-- `done_signals`: required package files, `contracts/` directory, owner-repo validation expectations
+- `done_signals`: required package files, owner-repo validation expectations
 
 ## Recommended Constraint Encoding
 
@@ -55,14 +51,9 @@
 - `mode=create`
 - `feature_id=FEAT-0042`
 - `slug=evidence-replay-repair`
-- `target_feature_path=specs/features/FEAT-0042-evidence-replay-repair`
-- `implementation_order=5`
-- `profile_key=axiom-v1`
-- `review_mode=human_required`
-- `planes=governance,reconcile`
-- `owner_roles=product,governance`
-- `target_repos=AxiomSpecs,AxiomRunner`
-- `adoption.generic-methodology=direct-use`
+- `target_feature_path=<path-to-feature-dir>`
+- `profile_key=<profile-key>` (optional, if using a profile)
+- `profile_root=<path-to-profile-root>` (optional, paired with profile_key)
 
 ## Recommended Packet Shape By Scenario
 
@@ -74,9 +65,9 @@
 - update
   - 기존 `package_path` 또는 `feature_id`를 `constraints`에 넣는다
   - `request_summary`에는 무엇을 고치는지 적는다
-  - `evidence_refs`에는 broken package files나 failing owner checks를 넣는다
+  - `evidence_refs`에는 broken package files나 failing checks를 넣는다
 
 ## Stop Rule
 
 - `source_context_refs` 또는 `evidence_refs`에 current truth가 없으면 중단한다.
-- semantic owner, target repo, adoption mapping이 packet이나 repo evidence에서 유도되지 않으면 `INPUT_GAP_REPORT`를 반환한다.
+- required authoring facts가 packet이나 repo evidence에서 유도되지 않으면 `INPUT_GAP_REPORT`를 반환한다.

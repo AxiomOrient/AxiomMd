@@ -6,7 +6,7 @@ status: "patch-required"
 input_ref: "<path/to/input.packet.yaml or feature package dir>"
 changed_paths: []
 produced_paths:
-  - "specs/features/FEAT-xxxx-slug/handoff.packet.yaml"
+  - "<package-dir>/handoff.packet.yaml"
   - "<optional/path/to/review-note.md>"
 evidence_refs:
   - "<path/to/package.yaml>"

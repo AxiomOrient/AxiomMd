@@ -8,7 +8,7 @@
 정본은 아래에 있다.
 
 - AxiomMd: generic evidence / reconcile artifact contract
-- AxiomSpecs: Axiom-local run outcome, evidence, reconcile meaning
+- Product profile repo (if active): product-local run outcome, evidence, reconcile meaning extensions
 
 ## Unit of Review
 

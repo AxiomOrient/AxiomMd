@@ -5,9 +5,8 @@ authoritative review-stage output은 반드시 `handoff.packet.yaml`이다.
 
 ## Summary
 
-- Linked handoff packet: `path/to/handoff.packet.yaml`
-- Package: `specs/features/FEAT-xxxx-slug`
-- Feature ID: `FEAT-xxxx`
+- Linked handoff packet: `<package-dir>/handoff.packet.yaml`
+- Package: `<package-dir>`
 - Handoff status: ready
 - Overall verdict: ready
 
@@ -60,12 +59,12 @@ authoritative review-stage output은 반드시 `handoff.packet.yaml`이다.
 
 ## Evidence
 
-- `specs/features/FEAT-xxxx-slug/package.yaml`
-- `specs/features/FEAT-xxxx-slug/requirements.yaml`
-- `specs/features/FEAT-xxxx-slug/invariants.yaml`
-- `specs/features/FEAT-xxxx-slug/design.md`
-- `specs/features/FEAT-xxxx-slug/tasks.md`
-- `specs/features/FEAT-xxxx-slug/evals.yaml`
-- `specs/features/FEAT-xxxx-slug/risks.yaml`
-- `specs/features/FEAT-xxxx-slug/decisions.jsonl`
-- `specs/features/FEAT-xxxx-slug/contracts/`
+- `<package-dir>/package.yaml`
+- `<package-dir>/requirements.yaml`
+- `<package-dir>/invariants.yaml`
+- `<package-dir>/design.md`
+- `<package-dir>/tasks.md`
+- `<package-dir>/evals.yaml`
+- `<package-dir>/risks.yaml`
+- `<package-dir>/decisions.jsonl`
+- `<package-dir>/slices.yaml`

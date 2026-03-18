@@ -1,18 +1,12 @@
-# AxiomMd-owned envelope example for AxiomSpecs package authoring.
+# Generic input packet example for feature package authoring.
+# Populate with target-specific values. Add profile constraints if a profile is active.
 packet_version: 1
 request_summary: "<feature title and short summary>"
 target_kind: "feature-package"
 source_context_refs:
-  - "specs/features/README.md"
+  - "<path/to/relevant/source/file>"
 output_contract_refs:
-  - "README.md"
-  - "docs/03_SERVICE_SPEC.md"
-  - "specs/STANDARD_STACK.md"
-  - "profiles/axiom-v1/profile.yaml"
-  - "profiles/axiom-v1/package-and-readiness.shape.yaml"
-  - "profiles/axiom-v1/slice.shape.yaml"
-  - "profiles/axiom-v1/run-outcome.shape.yaml"
-  - "specs/README.md"
+  - "<path/to/contract/or/spec>"
 scope:
   in:
     - "<bounded feature scope>"
@@ -20,19 +14,12 @@ scope:
     - "<explicit non-goal>"
 constraints:
   - "mode=create"
-  - "feature_id=FEAT-xxxx"
-  - "slug=short-slug"
-  - "target_feature_path=specs/features/FEAT-xxxx-short-slug"
-  - "implementation_order=0"
-  - "profile_key=axiom-v1"
-  - "review_mode=human_required"
-  - "planes=source"
-  - "owner_roles=product"
-  - "target_repos=AxiomSpecs"
-  - "adoption.generic-methodology=direct-use"
+  - "feature_id=<id>"
+  - "slug=<slug>"
+  - "target_feature_path=<path/to/feature/dir>"
 done_signals:
-  - "required package files and contracts/ directory exist"
+  - "required package files exist"
   - "workflow_check.py package returns ready for the target package"
 open_questions: []
 evidence_refs:
-  - "specs/README.md"
+  - "<path/to/current/truth/file>"

@@ -2,8 +2,8 @@
 
 Use this worksheet only when the target repo does not already own a normalized packet format.
 
-For AxiomMd/AxiomSpecs work, the authoritative normalized input is AxiomMd `templates/input.packet.yaml`.
-This file is a fallback worksheet for non-Axiom repos or ad hoc spec work.
+When working within the AxiomMd workflow, the authoritative normalized input is `templates/input.packet.yaml`.
+This file is a fallback worksheet for repos that do not own a packet format, or for ad hoc spec work.
 
 ## 1. Task Summary
 

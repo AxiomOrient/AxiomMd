@@ -13,7 +13,7 @@ This skill combines contract-style spec structure with AI execution rules.
 ## Workflow
 
 1. Read [references/AI_FACING_SPEC_WRITING_STANDARD.md](references/AI_FACING_SPEC_WRITING_STANDARD.md).
-2. If the target repo already owns a normalized packet format, use the repo-owned packet first. For AxiomMd/AxiomSpecs work, the authoritative normalized input is AxiomMd `templates/input.packet.yaml`.
+2. If the target repo already owns a normalized packet format, use the repo-owned packet first. When working within the AxiomMd workflow, the authoritative normalized input is `templates/input.packet.yaml`.
 3. If the target repo does not already own a normalized packet format and the intake is weak or scattered, normalize it with [assets/spec-input-packet-template.md](assets/spec-input-packet-template.md).
 4. Use section `16` of the reference standard to decide whether the output should be a full 18-section spec or a smaller scoped artifact.
 5. For a full implementation spec, start from [assets/spec-writing-standard-template.md](assets/spec-writing-standard-template.md).

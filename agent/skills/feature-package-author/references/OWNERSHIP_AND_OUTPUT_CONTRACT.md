@@ -2,46 +2,38 @@
 
 ## Source Basis
 
-This skill is aligned to these owner-repo files:
+This skill is aligned to these kernel files:
 
-- `AxiomMd/method/workflow-io-protocol.md`
-- `AxiomMd/method/authoring-workflows.md`
-- `AxiomMd/templates/input.packet.yaml`
-- `AxiomMd/templates/route.decision.yaml`
-- `AxiomMd/templates/handoff.packet.yaml`
-- `AxiomSpecs/README.md`
-- `AxiomSpecs/docs/03_SERVICE_SPEC.md`
-- `AxiomSpecs/specs/STANDARD_STACK.md`
-- `AxiomSpecs/profiles/axiom-v1/profile.yaml`
-- `AxiomSpecs/profiles/axiom-v1/package-and-readiness.shape.yaml`
-- `AxiomSpecs/profiles/axiom-v1/slice.shape.yaml`
-- `AxiomSpecs/profiles/axiom-v1/run-outcome.shape.yaml`
-- `AxiomSpecs/specs/README.md`
-- `AxiomSpecs/scripts/check_specs`
-- current `AxiomSpecs/specs/features/**`
+- `method/artifact-and-contract.md`
+- `method/authoring-workflows.md`
+- `templates/input.packet.yaml`
+- `templates/route.decision.yaml`
+- `templates/handoff.packet.yaml`
+
+If a profile is active, this skill is also aligned to the profile manifest at:
+
+- `<profile_root>/profiles/<profile_key>/shape.yaml`
 
 This file is a local summary for the installed skill.
-Do not fetch those owner-repo files from GitHub at runtime.
-Refresh this summary only when the owner repos change.
+Do not fetch owner-repo files from GitHub at runtime.
+Refresh this summary only when the kernel or profile contract changes.
 
 ## Ownership Split
 
-- AxiomMd owns the normalized workflow packet formats.
-- AxiomSpecs owns the feature package output shape and the Axiom local profile.
+- AxiomMd owns the normalized workflow packet formats and the generic package contract.
+- The product profile (if provided) owns product-specific package shape extensions.
 - This skill must not invent a new packet envelope or a new product-truth package shape.
 
 ## Input Envelope
 
-For Axiom-targeted work, the authoritative input envelope is AxiomMd `input.packet.yaml`.
+The authoritative input envelope is `input.packet.yaml`.
 The normal workflow also provides `route.decision.yaml`.
 If the route is `framing-first`, `product-charter.md` and `system-blueprint.md` are expected to exist before package authoring starts.
-`authoring.request.yaml` is an optional Axiom-local overlay input for create-mode metadata.
-Use it when product-local fields would otherwise be packed into free-form `constraints`.
 This skill may derive missing details from an existing feature package only when `mode=update`.
 
-## Output Shape
+## Generic Output Shape
 
-Current AxiomSpecs package shape:
+Required package files (no profile):
 
 - `intent.md`
 - `package.yaml`
@@ -52,62 +44,36 @@ Current AxiomSpecs package shape:
 - `evals.yaml`
 - `risks.yaml`
 - `decisions.jsonl`
-- `contracts/`
 - `slices.yaml`
 
 `slices.yaml` defines the launchable slices for this package.
-Each slice must have `slice_id`, `path_scope`, `req_ids`, `task_ids`, `eval_ids`, `done_conditions`, `verification_checks`, `budget`, `approval_mode`.
+Each slice must have `path_scope`, `req_ids`, `task_ids`, `eval_ids`, `done_conditions`, `approval_mode`.
 
-## Current House Metadata
+When a profile is active, the profile manifest may define additional required files or directories.
 
-Current active packages consistently use these `package.yaml` fields:
+## Generic Package Metadata
 
-- `feature_id`
+Required `package.yaml` fields (no profile):
+
+- `id`
 - `slug`
 - `title`
 - `state`
-- `review_mode`
-- `profile_key`
-- `planes`
-- `implementation_order`
-- `owner_roles`
-- `target_repos`
-- `adoption`
-- `proof_state`
-- `current_progress`
-- `next_step`
-- `blockers`
+- `layer`
 
-`proof_state` tracks implementation proof separate from source package structure:
-`not_proven | reference_slice_proven | runtime_proven | reconciled`
+When a profile is active, the profile manifest defines additional required fields.
+Generic fields must always be present regardless of profile.
 
-## Local Profile
+## Validation
 
-- `review_mode` default: `human_required`
-- `profile_key` current value: `axiom-v1`
-- baseline `planes`: `source | compile | execution | control | governance | reconcile`
-- baseline `adoption` modes:
-  - `direct-use`
-  - `direct-use-authoring-only`
-  - `direct-use-execution-only`
-  - `semantic-direct-use`
-  - `renewal-base`
-  - `reference-only`
-
-Some current packages also use repo-local adoption tokens beyond the baseline profile list.
-Preserve those tokens on update when they already exist in package truth.
-For new packages, prefer the baseline profile modes unless direct repository evidence supports a new token.
-
-## Validation Source
-
-Use the owner repo checker:
+Use the kernel checker:
 
 ```bash
-python $AXIOM_MD/scripts/workflow_check.py package <feature-dir> --base-dir <AxiomSpecs>
+python $AXIOM_MD/scripts/workflow_check.py package <feature-dir>
 ```
 
-This checker is the current owner-repo source for required file set, linkage completeness, and handoff metadata.
-At runtime, use the local target repository copy of that checker.
+This checker is the source for required file set, linkage completeness, and handoff metadata.
+If a profile specifies a validator, run it after the generic checker passes.
 
 ## Authoring Stage Handoff
 

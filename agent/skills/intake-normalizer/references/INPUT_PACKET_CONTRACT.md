@@ -4,7 +4,7 @@
 
 이 skill은 아래 공통 규약을 기준으로 한다.
 
-- AxiomMd `method/workflow-io-protocol.md`
+- AxiomMd `method/artifact-and-contract.md`
 - AxiomMd `templates/input.packet.yaml`
 
 이 문서는 설치된 skill이 실행 중 참고할 최소 요약본이다.

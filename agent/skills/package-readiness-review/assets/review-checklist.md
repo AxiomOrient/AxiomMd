@@ -1,9 +1,10 @@
 # Review Checklist
 
 - [ ] package path가 정확하다.
-- [ ] `python $AXIOM_MD/scripts/workflow_check.py package <feature-dir> --base-dir <AxiomSpecs>`를 먼저 실행했다.
-- [ ] required file set와 `contracts/` directory를 먼저 확인했다.
-- [ ] `ready`는 owner repo checker pass + 나머지 gate pass일 때만 사용했다.
+- [ ] `python $AXIOM_MD/scripts/workflow_check.py ensure-layer <feature-dir>`로 layer 존재 여부를 먼저 확인했다.
+- [ ] `python $AXIOM_MD/scripts/workflow_check.py package <feature-dir>`를 먼저 실행했다.
+- [ ] required file set를 먼저 확인했다. (profile이 있으면 profile-required files도 포함)
+- [ ] `ready`는 모든 generic gate pass (+ profile gates pass if active)일 때만 사용했다.
 - [ ] broken `REQ/TASK/EVAL` ids를 정확히 적었다.
 - [ ] vague prose 대신 concrete missing items를 적었다.
 - [ ] cheapest next fixes는 최소 수정 단위로 적었다.

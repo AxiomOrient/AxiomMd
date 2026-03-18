@@ -1,4 +1,4 @@
 interface:
   display_name: "Feature Package Author"
-  short_description: "Create or repair one AxiomSpecs feature package from an AxiomMd input packet"
-  default_prompt: "Use $feature-package-author to create or repair an AxiomSpecs feature package from a normalized AxiomMd input packet and current repo evidence."
+  short_description: "Create or repair one feature package from a normalized input packet"
+  default_prompt: "Use $feature-package-author to create or repair a feature package from a normalized input packet and current repo evidence."

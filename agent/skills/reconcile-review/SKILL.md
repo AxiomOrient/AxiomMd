@@ -1,6 +1,6 @@
 ---
 name: reconcile-review
-description: Review one normalized evidence bundle against one selected AxiomSpecs package slice and produce one bounded reconcile decision. Use after evidence normalization to decide accepted vs patch-required vs relaunch vs hold. Do not use for package authoring, compile-only work, or raw evidence normalization.
+description: Review one normalized evidence bundle against one selected feature package slice and produce one bounded reconcile decision. Use after evidence normalization to decide accepted vs patch-required vs relaunch vs hold. Do not use for package authoring, compile-only work, or raw evidence normalization.
 ---
 
 # Reconcile Review
@@ -8,11 +8,7 @@ description: Review one normalized evidence bundle against one selected AxiomSpe
 ## Purpose
 
 Produce exactly one deterministic **reconcile decision**
-for exactly one **AxiomSpecs package slice**.
-
-AxiomMd owns the generic reconcile-result artifact class and reconcile-stage handoff.
-AxiomSpecs owns Axiom-local reconcile meaning and outcome classification.
-This bundle carries only the installed skill behavior and minimum owner summaries it needs.
+for exactly one **package slice**.
 
 This is a **review-only skill**.
 It MUST NOT silently edit package source files unless the user explicitly requests a separate repair pass.
@@ -20,10 +16,9 @@ It closes only the reconcile decision for one bounded slice.
 
 ## Read First
 
-1. [references/OWNER_CONTRACTS_SUMMARY.md](references/OWNER_CONTRACTS_SUMMARY.md)
-2. [references/RUN_OUTCOME_SUMMARY.md](references/RUN_OUTCOME_SUMMARY.md)
-3. [assets/reconcile.result.yaml](assets/reconcile.result.yaml)
-4. [assets/reconcile-checklist.md](assets/reconcile-checklist.md)
+1. [references/EXECUTION_CONTRACT_SUMMARY.md](references/EXECUTION_CONTRACT_SUMMARY.md)
+2. [assets/reconcile.result.yaml](assets/reconcile.result.yaml)
+3. [assets/reconcile-checklist.md](assets/reconcile-checklist.md)
 
 ## Use This Skill When
 
@@ -56,7 +51,7 @@ Optional inputs:
 - `focus`: `full | classification-only | next-action-only`
 
 The following reconcile facts MUST be derivable from package truth,
-selected slice, normalized evidence, or bundled owner summaries:
+selected slice, normalized evidence, or bundled summaries:
 
 - `feature_id`
 - `package_ref`
@@ -96,8 +91,8 @@ Write:
 
 Default paths:
 
-- `${output_path:-/reconcile.result.yaml}`
-- `${output_handoff_path:-/handoff.packet.yaml}`
+- `${output_path:-./reconcile.result.yaml}`
+- `${output_handoff_path:-./handoff.packet.yaml}`
 
 ## Review Rules
 
@@ -127,19 +122,12 @@ Default paths:
 - `${package_path}/slices.yaml`
 - `${evidence_path}`
 - `${execution_plan_path}` when provided
-- bundled owner-summary docs in `references/**`
 
 ## Write Paths
 
-- `${output_path:-/reconcile.result.yaml}`
-- `${output_handoff_path:-/handoff.packet.yaml}`
+- `${output_path:-./reconcile.result.yaml}`
+- `${output_handoff_path:-./handoff.packet.yaml}`
 - optional `reconcile-note.md`
-
-## Output Target
-
-- one bounded `reconcile.result.yaml`
-- one reconcile-stage `handoff.packet.yaml`
-- optional human-readable reconcile note
 
 ## Workflow
 
@@ -149,7 +137,7 @@ Default paths:
 4. Classify the run outcome.
 5. Write `reconcile.result.yaml`.
 6. Write reconcile-stage `handoff.packet.yaml`.
-7. Stop if classification cannot be grounded without invented owner decisions.
+7. Stop if classification cannot be grounded without invented decisions.
 
 ## Stop Conditions
 
@@ -159,7 +147,7 @@ Stop and return a blocker report if:
 - selected slice is missing
 - evidence bundle is missing or malformed
 - evidence cannot be mapped to the selected slice
-- next action would require invented owner decisions
+- next action would require invented decisions
 
 ## Final Rule
 

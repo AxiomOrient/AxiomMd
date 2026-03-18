@@ -1,0 +1,32 @@
+id: framing
+layer: authoring
+description: >
+  request scope가 넓은 경우 charter + blueprint를 생성해 feature split 전 경계와 목표를 고정한다.
+
+inputs:
+  - input.packet.yaml
+  - route.decision.yaml
+
+skills:
+  - id: charter-blueprint-author
+    reads:
+      - input.packet.yaml
+      - route.decision.yaml
+    writes:
+      - product-charter.md
+      - system-blueprint.md
+      - handoff.packet.yaml
+
+outputs:
+  - product-charter.md
+  - system-blueprint.md
+  - handoff.packet.yaml
+
+acceptance:
+  - "`product-charter.md` exists and includes goals / non-goals / out-of-scope"
+  - "`system-blueprint.md` exists and includes boundaries / components"
+  - "`route.decision.yaml.route == framing-first` is the reason framing is executed"
+
+policies:
+  - policy/ROLE_POLICY.md
+  - policy/ESCALATION_POLICY.md

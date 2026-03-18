@@ -1,0 +1,20 @@
+id: full-cycle
+description: raw input -> execution planning -> execution-and-evidence -> reconcile
+stages:
+  - workflow: authoring/intake-and-routing
+  - workflow: authoring/framing
+    condition: route.decision.yaml.route == "framing-first"
+  - workflow: authoring/feature-package-authoring
+  - workflow: authoring/readiness-and-handoff
+  - workflow: execution/execution-planning
+    condition: readiness-report.md.status == "ready"
+  - workflow: execution/execution-and-evidence
+    condition: execution.plan.yaml is not null
+  - workflow: execution/reconcile-and-close
+    condition: evidence.result.json is not null
+outputs:
+  - readiness-report.md
+  - execution.plan.yaml
+  - evidence.result.json
+  - reconcile.result.yaml
+  - handoff.packet.yaml

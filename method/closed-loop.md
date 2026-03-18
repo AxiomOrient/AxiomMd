@@ -37,6 +37,11 @@ approved package
 
 authoring workflow의 단계 정의는 `method/authoring-workflows.md`가 소유한다.
 
+추가로 실행 단계의 운영 통제는 별도 레이어로 둔다.
+
+- 실행 중단/재개/재시도/타임아웃 정책: [operational-policy-workflow.md](operational-policy-workflow.md)
+- 실행과 reconcile 중단 시 공통 상태 노출: `stage`, `blockers`, `open_questions`, `evidence_refs`
+
 ## Loop Size Rule
 
 - trivial: 1 task

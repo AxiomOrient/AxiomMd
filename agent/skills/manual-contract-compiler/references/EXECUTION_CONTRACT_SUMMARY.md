@@ -9,7 +9,7 @@
 정본은 아래다.
 
 - AxiomMd: generic execution-planning artifact contract
-- AxiomSpecs: package truth, slice truth, run-outcome meaning
+- Product profile repo (if active): product-specific package truth, slice meaning extensions
 
 ## Unit of Work
 

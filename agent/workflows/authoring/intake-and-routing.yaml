@@ -1,0 +1,35 @@
+id: intake-and-routing
+layer: authoring
+description: >
+  raw input을 정규화하고 라우팅 경로를 판정한다.
+
+inputs:
+  - raw_request
+  - raw_packet_source
+
+skills:
+  - id: intake-normalizer
+    reads:
+      - raw_request
+      - raw_packet_source
+    writes:
+      - input.packet.yaml
+  - id: scope-router
+    reads:
+      - input.packet.yaml
+    writes:
+      - route.decision.yaml
+
+outputs:
+  - input.packet.yaml
+  - route.decision.yaml
+
+acceptance:
+  - "`input.packet.yaml` exists and is valid"
+  - "`route.decision.yaml` exists and `route` is one of [direct-package, framing-first, hold]"
+  - "route.decision.yaml.blockers is empty when route is resolved"
+
+policies:
+  - policy/ROLE_POLICY.md
+  - policy/EVAL_POLICY.md
+  - policy/ESCALATION_POLICY.md

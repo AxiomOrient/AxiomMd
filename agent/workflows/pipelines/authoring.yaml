@@ -1,0 +1,16 @@
+id: authoring
+description: raw input -> ready package
+stages:
+  - workflow: authoring/intake-and-routing
+  - workflow: authoring/framing
+    condition: route.decision.yaml.route == "framing-first"
+  - workflow: authoring/feature-package-authoring
+  - workflow: authoring/readiness-and-handoff
+outputs:
+  - readiness-report.md
+  - handoff.packet.yaml
+
+gates:
+  - "workflow:authoring/intake-and-routing의 route 결과가 유효해야 함"
+  - "route가 framing-first면 framing은 실행되어야 함"
+  - "readiness-report.md에 명시적 상태가 있어야 함"

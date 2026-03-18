@@ -1,4 +1,4 @@
 interface:
   display_name: "Package Readiness Review"
   short_description: "Review a feature package and emit a readiness handoff"
-  default_prompt: "Use $package-readiness-review to review one AxiomSpecs feature package, emit a review-stage handoff packet, and optionally write a human-readable review note."
+  default_prompt: "Use $package-readiness-review to review one feature package, emit a review-stage handoff packet, and optionally write a human-readable review note."

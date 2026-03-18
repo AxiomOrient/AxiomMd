@@ -1,0 +1,25 @@
+packet_version: 1
+stage: "feature-package-authoring"
+status: "ready"
+input_ref: "<path/to/input.packet.yaml or route.decision.yaml>"
+changed_paths: []
+produced_paths:
+  - "specs/features/FEAT-xxxx-slug/intent.md"
+  - "specs/features/FEAT-xxxx-slug/package.yaml"
+  - "specs/features/FEAT-xxxx-slug/requirements.yaml"
+  - "specs/features/FEAT-xxxx-slug/invariants.yaml"
+  - "specs/features/FEAT-xxxx-slug/design.md"
+  - "specs/features/FEAT-xxxx-slug/tasks.md"
+  - "specs/features/FEAT-xxxx-slug/evals.yaml"
+  - "specs/features/FEAT-xxxx-slug/risks.yaml"
+  - "specs/features/FEAT-xxxx-slug/decisions.jsonl"
+  - "specs/features/FEAT-xxxx-slug/contracts/"
+  - "specs/features/FEAT-xxxx-slug/slices.yaml"
+evidence_refs:
+  - "specs/features/FEAT-xxxx-slug/package.yaml"
+  - "specs/features/FEAT-xxxx-slug/requirements.yaml"
+  - "specs/features/FEAT-xxxx-slug/tasks.md"
+  - "specs/features/FEAT-xxxx-slug/evals.yaml"
+open_questions: []
+next_step: "<run readiness review or patch missing data>"
+blockers: []

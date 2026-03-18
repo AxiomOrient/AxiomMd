@@ -1,16 +1,16 @@
 packet_version: 1
-request_summary: "Axiom용 bounded feature package를 작성해야 한다."
+request_summary: "<bounded feature package를 작성해야 한다>"
 target_kind: "feature-package"
 source_context_refs: []
 output_contract_refs:
   - "README.md"
 scope:
   in:
-    - "Axiom feature package 1개 작성"
+    - "<feature package 1개 작성>"
   out:
     - "implementation code 수정"
 constraints:
-  - "target_repo=AxiomSpecs"
+  - "target_repo=<target>"
 done_signals:
   - "input packet이 다음 skill이 읽을 수 있는 수준으로 정리된다"
 open_questions: []

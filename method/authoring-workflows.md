@@ -83,7 +83,7 @@
 
 구현 전에 반드시 필요하다.
 
-- 기준: `method/package-readiness-gate.md`
+- 기준: `method/artifact-and-contract.md` (Package Readiness Gate 섹션)
 - 결과: `ready | patch-required | hold`
 
 ## Routing Rule
@@ -258,10 +258,9 @@ feature package가 바로 구현 가능한지 판정하고 다음 단계 handoff
 ### HILT
 
 아래면 사람 확인이 필요하다.
-
-- `hold`
+- scope가 매우 넓어 즉시 범위 판단이 안 될 때
 - high-risk 작업인데 승인 posture가 비어 있을 때
-- package와 현재 reality가 직접 충돌할 때
+- package와 현재 reality가 직접 충돌해 scope가 흔들릴 때
 
 ## Default Paths
 
@@ -330,6 +329,32 @@ feature package의 generic 뼈대는 공통이다.
 - handoff packet validator
 
 validator가 없다면 최소한 그 부재를 명시하고 sample run에서 수동 확인해야 한다.
+
+## Operational Control Layer (운영 제어 레이어)
+
+`authoring-workflows`는 계약·문서·준비까지 정의한다.
+운영 단계의 `run`, `resume`, `blocked`/`failed` 처리, TUI 가시성, 정책형 checkpoint는 별도 레이어에서 다룬다.
+
+운영 레이어 문서:
+
+- [operational-policy-workflow.md](operational-policy-workflow.md)
+
+운영 레이어 핵심 산출물:
+
+- `execution.plan.yaml`
+- `evidence.result.json`
+- `reconcile.result.yaml`
+- `handoff.packet.yaml`
+- file-cache checkpoint (기본: `run-id` 스코프)
+
+운영 레이어 HILT 예시:
+
+- feature-risk가 높아 승인 없이 수행할 수 없는 단계
+- checkpoint 재개 경로가 충돌하거나 모호할 때
+- 동일 stage에서 반복 실패가 관측될 때
+
+운영 레이어는 authoring workflow를 대체하지 않는다.
+대체하면 안 되며, authoring 완료 산출물을 실행 가능한 상태로 연결하는 **상태-제어 보완층**이다.
 
 ## Skill Position
 

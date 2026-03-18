@@ -2,7 +2,7 @@
 
 AxiomMd가 소유하는 generic 표준 정의 문서 모음.
 
-feature package를 두는 곳이 아니다. feature package는 AxiomSpecs에 있다.
+generic contract는 이 레포가 소유하고, feature package의 제품별 스키마/shape은 product output profile이 보강한다.
 
 ## Files
 

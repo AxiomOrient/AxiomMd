@@ -12,6 +12,7 @@ Subcommands:
   execution-plan     execution.plan.yaml
   evidence-result    evidence.result.json
   reconcile-result   reconcile.result.yaml
+  ensure-layer       package.yaml 또는 package 디렉터리의 layer 필드 보정
   pipeline           run all applicable checks in a workflow directory
 
 Options:
@@ -68,6 +69,17 @@ def load_yaml(path: Path) -> dict:
         return yaml.safe_load(f) or {}
 
 
+def dump_yaml(path: Path, data):
+    with open(path, "w", encoding="utf-8") as f:
+        yaml.safe_dump(
+            data,
+            f,
+            sort_keys=False,
+            default_flow_style=False,
+            allow_unicode=True,
+        )
+
+
 def load_json(path: Path) -> dict:
     with open(path, encoding="utf-8") as f:
         return json.load(f) or {}
@@ -100,6 +112,46 @@ def section_content(text: str, token: str) -> str:
     rest = text[nl + 1:]
     m = re.search(r"^#+\s", rest, re.MULTILINE)
     return rest[: m.start()].strip() if m else rest.strip()
+
+
+def ensure_layer_field(paths: list, layer: str, write: bool = False) -> Result:
+    r = Result(passed=True, target=" ".join(str(Path(p).resolve()) for p in paths), stage="ensure-layer")
+
+    for raw in paths:
+        p = Path(raw).resolve()
+        pkg_path = p / "package.yaml" if p.is_dir() else p
+        label = str(pkg_path)
+
+        if not pkg_path.exists():
+            r.add(f"package_yaml_exists:{label}", False, f"not found: {pkg_path}")
+            continue
+
+        try:
+            data = load_yaml(pkg_path)
+        except Exception as e:
+            r.add(f"package_yaml_parse:{label}", False, str(e))
+            continue
+
+        if not isinstance(data, dict):
+            r.add(f"package_yaml_mapping:{label}", False, "package.yaml must be YAML mapping")
+            continue
+
+        current = data.get("layer")
+        if isinstance(current, str) and current.strip():
+            r.add(f"layer_present:{label}", True, f"layer={current!r}")
+            continue
+
+        if write:
+            data["layer"] = layer
+            try:
+                dump_yaml(pkg_path, data)
+                r.add(f"layer_added:{label}", True, f"layer set to {layer!r}")
+            except Exception as e:
+                r.add(f"layer_write:{label}", False, str(e))
+        else:
+            r.add(f"layer_present:{label}", False, "missing layer in package.yaml (use --write to add)")
+
+    return r
 
 
 # ── Emitter ───────────────────────────────────────────────────────────────────
@@ -385,10 +437,19 @@ def check_handoff(path: Path, base_dir: Optional[Path] = None,
 REQUIRED_PACKAGE_FILES = [
     "intent.md", "package.yaml", "requirements.yaml", "invariants.yaml",
     "design.md", "tasks.md", "evals.yaml", "risks.yaml",
-    "decisions.jsonl", "slices.yaml", "contracts",
+    "decisions.jsonl", "slices.yaml",
 ]
 
-REQUIRED_PACKAGE_KEYS = ["feature_id", "title", "profile_key", "readiness_class"]
+# Generic minimum. feature_id check accepts "id" as equivalent (see loop below).
+# Profile-specific keys (profile_key, readiness_class, contracts/) are checked as
+# warnings so generic packages pass without them.
+REQUIRED_PACKAGE_KEYS = [
+    "title",
+    "state",
+    "slug",
+    "layer",
+    "feature_id",
+]
 
 DESIGN_REQUIRED_SECTIONS = [
     ("Boundary",           ["Boundary", "Boundaries"]),
@@ -425,12 +486,13 @@ def _parse_tasks(tasks_path: Path) -> list:
         pm = re.search(r"paths:\s*\[(.*?)\]", block, re.DOTALL)
         paths = [p.strip() for p in pm.group(1).split(",") if p.strip()] if pm else []
         dm = re.search(r"done_when:\s*(.+)$", block, re.MULTILINE)
+        nm = re.search(r"next:\s*(.+)$", block, re.MULTILINE)
         tasks.append({
             "id":        tid,
             "req_ids":   list(dict.fromkeys(re.findall(r"REQ-\d+", block))),
             "eval_ids":  list(dict.fromkeys(re.findall(r"EVAL-\d+", block))),
             "paths":     paths,
-            "done_when": dm.group(1) if dm else None,
+            "done_when": dm.group(1) if dm else (nm.group(1) if nm else None),
         })
     return tasks
 
@@ -457,10 +519,29 @@ def check_package(pkg_dir: Path, base_dir: Optional[Path] = None) -> Result:
                     present = k in meta or (k == "feature_id" and "id" in meta)
                     r.add(f"package_key_{k}", present, f"package.yaml missing: {k}")
             if isinstance(meta, dict):
-                r.add("feature_id_format", FEATURE_ID_RE.match(str(meta.get("feature_id", "")) or str(meta.get("id", ""))) is not None
-                       if isinstance(meta, dict) else False, "feature_id must be FEAT-xxxx")
-                r.add("profile_key_non_empty", bool(meta.get("profile_key")))
-                r.add("readiness_class_non_empty", bool(meta.get("readiness_class")))
+                # feature_id format check: only enforce FEAT-NNNN when feature_id key is used
+                if "feature_id" in meta:
+                    r.add("feature_id_format",
+                          FEATURE_ID_RE.match(str(meta.get("feature_id", ""))) is not None,
+                          "feature_id must be FEAT-xxxx")
+                # profile_key/readiness_class are profile-specific fields.
+                # Keep package checks green for generic profiles by recording intent only.
+                if "profile_key" in meta:
+                    r.add("profile_key_non_empty", bool(meta.get("profile_key")),
+                          "profile_key present but empty")
+                else:
+                    r.add("profile_key_non_empty", True,
+                          "profile_key absent (generic package)")
+                if "readiness_class" in meta:
+                    r.add("readiness_class_non_empty", bool(meta.get("readiness_class")),
+                          "readiness_class present but empty")
+                else:
+                    r.add("readiness_class_non_empty", True,
+                          "readiness_class absent (generic package)")
+
+                # contracts/ is AxiomSpecs profile-specific.
+                r.add("file_contracts", (pkg_dir / "contracts").exists(),
+                      "contracts/ present" if (pkg_dir / "contracts").exists() else "contracts/ absent (generic package)")
         except Exception as e:
             r.add("package_yaml_parse", False, str(e))
 
@@ -558,9 +639,10 @@ def check_package(pkg_dir: Path, base_dir: Optional[Path] = None) -> Result:
     design_path = pkg_dir / "design.md"
     if design_path.exists():
         design_text = design_path.read_text(encoding="utf-8")
+        design_text_lc = design_text.lower()
         for section_name, tokens in DESIGN_REQUIRED_SECTIONS:
             key = section_name.lower().replace(" ", "_")
-            r.add(f"design_has_{key}", any(t in design_text for t in tokens),
+            r.add(f"design_has_{key}", any(t.lower() in design_text_lc for t in tokens),
                   f"design.md missing section: {section_name}")
 
     return r
@@ -759,6 +841,10 @@ def build_parser() -> argparse.ArgumentParser:
                    ).add_argument("path")
     sub.add_parser("pipeline",          help="Run all checks in workflow dir"
                    ).add_argument("dir")
+    el = sub.add_parser("ensure-layer",      help="Ensure package.yaml contains layer field")
+    el.add_argument("paths", nargs="+", help="Package directories or package.yaml files")
+    el.add_argument("--write", action="store_true", help="Write missing layer values")
+    el.add_argument("--layer", default="feature", help="Layer value to write when missing")
     return p
 
 
@@ -787,6 +873,8 @@ def main():
         result = check_reconcile_result(Path(args.path))
     elif cmd == "pipeline":
         result = check_pipeline(Path(args.dir), base_dir=base_dir, strict=args.strict)
+    elif cmd == "ensure-layer":
+        result = ensure_layer_field(args.paths, layer=args.layer, write=args.write)
     else:
         sys.exit(f"Unknown command: {cmd}")
 

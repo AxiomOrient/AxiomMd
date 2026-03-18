@@ -1,0 +1,36 @@
+id: reconcile-and-close
+layer: execution
+description: >
+  evidence를 바탕으로 reconcile 결과를 내고 다음 액션을 확정한다.
+
+inputs:
+  - package.yaml
+  - slices.yaml
+  - evidence.result.json
+  - execution.plan.yaml
+
+skills:
+  - id: reconcile-review
+    reads:
+      - package.yaml
+      - requirements.yaml
+      - tasks.md
+      - evals.yaml
+      - slices.yaml
+      - evidence.result.json
+      - execution.plan.yaml
+    writes:
+      - reconcile.result.yaml
+      - handoff.packet.yaml
+
+outputs:
+  - reconcile.result.yaml
+  - handoff.packet.yaml
+
+acceptance:
+  - "reconcile.result.yaml has next_action, status(accepted|patch-required|relaunch|hold), decision_summary"
+  - "handoff.packet.yaml stage/next_step이 다음 단계로 연결됨"
+
+policies:
+  - policy/ROLE_POLICY.md
+  - policy/ESCALATION_POLICY.md

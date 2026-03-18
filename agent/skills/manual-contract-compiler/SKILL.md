@@ -1,6 +1,6 @@
 ---
 name: manual-contract-compiler
-description: Compile one approved AxiomSpecs package slice into one review-ready manual execution contract bundle. Use when the next output must be bounded compile artifacts for one selected slice. Do not use for package authoring, package readiness review, raw run normalization, or final reconcile classification.
+description: Compile one approved feature package slice into one review-ready manual execution contract bundle. Use when the next output must be bounded compile artifacts for one selected slice. Do not use for package authoring, package readiness review, raw run normalization, or final reconcile classification.
 ---
 
 # Manual Contract Compiler
@@ -8,11 +8,7 @@ description: Compile one approved AxiomSpecs package slice into one review-ready
 ## Purpose
 
 Produce exactly one **review-ready manual execution contract bundle**
-for exactly one **AxiomSpecs launchable slice**.
-
-AxiomMd owns the generic execution-planning artifact contract.
-AxiomSpecs owns package truth, slice truth, and Axiom-local run outcome meaning.
-This bundle carries only the installed skill behavior and minimum owner summaries it needs.
+for exactly one **launchable slice**.
 
 This is a **source-preserving skill**.
 It MUST NOT silently rewrite package source files.
@@ -21,14 +17,13 @@ It closes only the compile stage and emits the compile-stage handoff.
 
 ## Read First
 
-1. [references/OWNER_CONTRACTS_SUMMARY.md](references/OWNER_CONTRACTS_SUMMARY.md)
-2. [references/EXECUTION_CONTRACT_SUMMARY.md](references/EXECUTION_CONTRACT_SUMMARY.md)
-3. [assets/execution.plan.yaml](assets/execution.plan.yaml)
-4. [assets/compile-checklist.md](assets/compile-checklist.md)
+1. [references/EXECUTION_CONTRACT_SUMMARY.md](references/EXECUTION_CONTRACT_SUMMARY.md)
+2. [assets/execution.plan.yaml](assets/execution.plan.yaml)
+3. [assets/compile-checklist.md](assets/compile-checklist.md)
 
 ## Use This Skill When
 
-- one package already exists under `AxiomSpecs/specs/features/**`
+- one package already exists
 - one launchable slice already exists in `slices.yaml`
 - package readiness is already closed enough to compile a bounded run unit
 - the next output must be a review-ready manual execution contract bundle
@@ -54,16 +49,16 @@ Optional inputs:
 - `output_dir`
 - `output_handoff_path`
 - `focus`: `full | contract-only | handoff-only`
+- `profile_manifest_path` — path to a profile manifest YAML
+- OR `profile_key` + `profile_root` — resolved to `<profile_root>/profiles/<profile_key>/shape.yaml`
 
 The skill MUST read directly from package source and the selected slice.
 
 The following compile facts MUST be derivable from package files, slice files,
-or bundled owner summaries:
+or profile-provided summaries:
 
 - `feature_id`
-- `profile_key`
 - package `state`
-- package `proof_state`
 - selected `slice_id`
 - `path_scope`
 - `req_ids`
@@ -78,6 +73,17 @@ If any required compile fact is missing or ambiguous,
 STOP and return a concise `INPUT_GAP_REPORT`
 instead of writing partial compile artifacts.
 
+## Profile Resolution
+
+If `profile_manifest_path` or (`profile_key` + `profile_root`) is provided:
+
+1. Load the profile manifest.
+2. Apply profile-required additional compile fields on top of the generic contract.
+3. Apply profile-defined output path conventions (if any).
+4. The profile cannot remove generic required compile facts — only extend them.
+
+If no profile is provided, produce generic compile output only.
+
 ## Minimal Package Reading Guide
 
 Read at minimum:
@@ -87,7 +93,6 @@ Read at minimum:
 - `tasks.md`
 - `evals.yaml`
 - `design.md`
-- `contracts/**`
 - `slices.yaml`
 
 The selected slice is the compile boundary.
@@ -111,11 +116,11 @@ Standard workflow output:
 
 Default output root:
 
-- `${output_dir:-/execution-contract}`
+- `${output_dir:-./execution-contract}`
 
 Default handoff path:
 
-- `${output_handoff_path:-/handoff.packet.yaml}`
+- `${output_handoff_path:-./handoff.packet.yaml}`
 
 This compile-stage handoff does not replace reconcile-stage review.
 It only closes the compile stage.
@@ -131,7 +136,7 @@ It only closes the compile stage.
 - `execution.plan.yaml` MUST include `package_ref`, `slice_ref`, `req_ids`, `task_ids`, `eval_ids`, `approval_mode`, `budget`, and `stop_conditions`.
 - If `state != ready`, STOP.
 - If linked requirement, task, or eval ids are missing, STOP.
-- Do not invent AxiomRunner-, AxiomNexus-, or codex-runtime-specific fields without direct owner evidence.
+- Do not invent platform-runtime-specific fields without direct evidence from source.
 - Every compile artifact MUST cite the selected package and slice as its source.
 
 ## Read Paths
@@ -141,35 +146,29 @@ It only closes the compile stage.
 - `${package_path}/tasks.md`
 - `${package_path}/evals.yaml`
 - `${package_path}/design.md`
-- `${package_path}/contracts/**`
 - `${package_path}/slices.yaml`
-- bundled owner-summary docs in `references/**`
+- profile manifest when provided
 
 ## Write Paths
 
-- `${output_dir:-/execution-contract}/execution-brief.md`
-- `${output_dir:-/execution-contract}/goal.json`
-- `${output_dir:-/execution-contract}/workflow-pack.overlay.yaml`
-- `${output_dir:-/execution-contract}/launch.request.yaml`
-- `/execution.plan.yaml`
-- `${output_handoff_path:-/handoff.packet.yaml}`
-
-## Output Target
-
-- one bounded manual execution contract bundle
-- one compile-stage `execution.plan.yaml`
-- one compile-stage `handoff.packet.yaml`
+- `${output_dir:-./execution-contract}/execution-brief.md`
+- `${output_dir:-./execution-contract}/goal.json`
+- `${output_dir:-./execution-contract}/workflow-pack.overlay.yaml`
+- `${output_dir:-./execution-contract}/launch.request.yaml`
+- `./execution.plan.yaml`
+- `${output_handoff_path:-./handoff.packet.yaml}`
 
 ## Workflow
 
 1. Validate that `package_path` exists.
 2. Read `package.yaml` and confirm package state is compile-eligible.
 3. Read `slices.yaml` and resolve the selected launchable slice.
-4. Pull linked requirement, task, and eval facts from package source.
-5. Compile the bounded execution contract bundle.
-6. Write `execution.plan.yaml`.
-7. Write compile-stage `handoff.packet.yaml`.
-8. Stop if any output cannot be grounded in package truth.
+4. Resolve profile if provided.
+5. Pull linked requirement, task, and eval facts from package source.
+6. Compile the bounded execution contract bundle.
+7. Write `execution.plan.yaml`.
+8. Write compile-stage `handoff.packet.yaml`.
+9. Stop if any output cannot be grounded in package truth.
 
 ## Stop Conditions
 

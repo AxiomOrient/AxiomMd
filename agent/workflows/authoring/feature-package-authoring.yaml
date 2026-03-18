@@ -1,0 +1,50 @@
+id: feature-package-authoring
+layer: authoring
+description: >
+  정규화된 packet(및 필요시 framing 결과)를 바탕으로 feature package를 생성/보강한다.
+
+inputs:
+  - input.packet.yaml
+  - route.decision.yaml
+
+skills:
+  - id: feature-package-author
+    reads:
+      - input.packet.yaml
+      - route.decision.yaml
+    writes:
+      - intent.md
+      - package.yaml
+      - requirements.yaml
+      - invariants.yaml
+      - design.md
+      - tasks.md
+      - evals.yaml
+      - risks.yaml
+      - decisions.jsonl
+      - slices.yaml
+      - handoff.packet.yaml
+
+outputs:
+  - intent.md
+  - package.yaml
+  - requirements.yaml
+  - invariants.yaml
+  - design.md
+  - tasks.md
+  - evals.yaml
+  - risks.yaml
+  - decisions.jsonl
+  - slices.yaml
+  - handoff.packet.yaml
+
+acceptance:
+  - "feature package 핵심 파일군이 모두 존재함"
+  - "package.yaml에서 id/slug/title/state/layer 또는 프로파일 확장 항목이 추출 가능해야 함"
+  - "task-id와 req-id/eval-id 정합성 점검이 가능한 수준으로 작성됨"
+  - "route가 framing-first일 경우만 product-charter.md 및 system-blueprint.md를 사용함"
+
+policies:
+  - policy/ROLE_POLICY.md
+  - policy/EVAL_POLICY.md
+  - policy/ESCALATION_POLICY.md

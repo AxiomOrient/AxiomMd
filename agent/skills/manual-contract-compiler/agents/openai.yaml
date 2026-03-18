@@ -1,4 +1,4 @@
 interface:
   display_name: "Manual Contract Compiler"
   short_description: "Compile an approved slice into a manual execution contract"
-  default_prompt: "Use $manual-contract-compiler to compile one approved AxiomSpecs package slice into a review-ready manual execution contract bundle."
+  default_prompt: "Use $manual-contract-compiler to compile one approved package slice into a review-ready manual execution contract bundle."

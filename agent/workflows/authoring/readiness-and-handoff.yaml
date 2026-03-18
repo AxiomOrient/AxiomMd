@@ -1,0 +1,47 @@
+id: readiness-and-handoff
+layer: authoring
+description: >
+  feature package의 실행 준비 상태를 판정하고 readiness/handoff artifact를 남긴다.
+
+inputs:
+  - intent.md
+  - package.yaml
+  - requirements.yaml
+  - invariants.yaml
+  - design.md
+  - tasks.md
+  - evals.yaml
+  - risks.yaml
+  - decisions.jsonl
+  - slices.yaml
+
+skills:
+  - id: package-readiness-review
+    reads:
+      - intent.md
+      - package.yaml
+      - requirements.yaml
+      - invariants.yaml
+      - design.md
+      - tasks.md
+      - evals.yaml
+      - risks.yaml
+      - decisions.jsonl
+      - slices.yaml
+    writes:
+      - readiness-report.md
+      - handoff.packet.yaml
+
+outputs:
+  - readiness-report.md
+  - handoff.packet.yaml
+
+acceptance:
+  - "readiness-report.md가 status(ready|patch-required|hold)으로 판정됨"
+  - "handoff.packet.yaml의 stage는 readiness-and-handoff로 세팅됨"
+  - "next_step 또는 blockers가 명시됨"
+
+policies:
+  - policy/ROLE_POLICY.md
+  - policy/EVAL_POLICY.md
+  - policy/ESCALATION_POLICY.md

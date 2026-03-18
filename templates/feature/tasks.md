@@ -7,8 +7,7 @@ tasks:
       - EVAL-0001
     touched_paths:
       - "<path>"
-    next: "<what proves completion>"
-    done_when: "<same as next>"
+    done_when: "<what proves completion>"
 
 # Optional guidance
 # - Add additional task entries as needed (TASK-0002, TASK-0003 ...).
