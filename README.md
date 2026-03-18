@@ -94,9 +94,9 @@ AxiomMd가 소유하지 않는 것은 아래다.
 13. `docs/12_SPEC_AUTHORING_WORKFLOW_SET.md`
 14. `docs/13_SPEC_AUTHORING_GUIDE.md`
 15. `agent/workflow/README.md`
-15. `specs/README.md`
-16. `specs/SPEC_PACKAGE_STANDARD.md`
-17. `templates/**`
+16. `specs/README.md`
+17. `specs/SPEC_PACKAGE_STANDARD.md`
+18. `templates/**`
 
 ## Current State
 
@@ -105,3 +105,16 @@ AxiomMd가 소유하지 않는 것은 아래다.
 - 방법론의 개선은 observation을 generic asset으로 승격할 때만 이 저장소에 반영한다.
 - package가 구현-ready 상태인지 검토할 때는 `docs/09_PACKAGE_READINESS_GATE.md`를 먼저 통과해야 한다.
 - workflow나 skill 세트를 바꿨으면 샘플 입력으로 한 번 끝까지 통과시켜 보고 문서를 고친다.
+- workflow 실행의 단일 체크 진입점은 `scripts/workflow_check.py`이며, 삭제된 개별 `scripts/check_*.rb`는 이진 체크로 통합되어 있다.
+
+### workflow_check 사용 예시
+
+- `python scripts/workflow_check.py pipeline <workflow-dir>`
+- `python scripts/workflow_check.py packet <path-to-input.packet.yaml>`
+- `python scripts/workflow_check.py route <path-to-route.decision.yaml>`
+- `python scripts/workflow_check.py framing <path-to-product-charter.md> <path-to-system-blueprint.md>`
+- `python scripts/workflow_check.py authoring-request <path-to-authoring.request.yaml>`
+- `python scripts/workflow_check.py handoff <path-to-handoff.packet.yaml> --base-dir <워크플로우 루트>`
+- `python scripts/workflow_check.py package <feature-package-dir>`
+- `python scripts/workflow_check.py --strict packet <path-to-input.packet.yaml>`
+- `python scripts/workflow_check.py --json packet <path-to-input.packet.yaml>`
