@@ -92,7 +92,8 @@ AxiomMd가 소유하지 않는 것은 아래다.
 11. `docs/10_WORKFLOW_IO_PROTOCOL.md`
 12. `docs/11_CLIENT_INTENT_TO_SPEC_WORKFLOW.md`
 13. `docs/12_SPEC_AUTHORING_WORKFLOW_SET.md`
-14. `agent/workflow/README.md`
+14. `docs/13_SPEC_AUTHORING_GUIDE.md`
+15. `agent/workflow/README.md`
 15. `specs/README.md`
 16. `specs/SPEC_PACKAGE_STANDARD.md`
 17. `templates/**`
