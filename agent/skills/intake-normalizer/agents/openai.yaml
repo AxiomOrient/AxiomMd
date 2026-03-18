@@ -1,0 +1,4 @@
+interface:
+  display_name: "Intake Normalizer"
+  short_description: "Turn rough client input into a clean input packet"
+  default_prompt: "Use $intake-normalizer to convert the current raw brief into an AxiomMd-style input packet."

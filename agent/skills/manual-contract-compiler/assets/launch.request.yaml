@@ -1,0 +1,13 @@
+package_ref: ""
+slice_ref: ""
+approval_mode: ""
+budget: {}
+artifacts:
+  execution_brief: ""
+  goal_json: ""
+  workflow_pack_overlay: ""
+constraints:
+  path_scope: []
+  stop_conditions: []
+verification_checks: []
+notes: []

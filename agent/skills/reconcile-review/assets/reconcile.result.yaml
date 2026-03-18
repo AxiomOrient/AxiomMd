@@ -1,0 +1,12 @@
+stage: reconcile-and-close
+status: ""
+package_ref: ""
+slice_ref: ""
+evidence_refs: []
+decision_summary: ""
+classification: ""
+changed_paths: []
+next_action: ""
+open_questions: []
+blockers: []
+notes: []

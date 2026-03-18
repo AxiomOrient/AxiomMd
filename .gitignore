@@ -2,3 +2,6 @@
 sandbox/*
 .agents/*
 .claude/*
+
+# Test/run logs (runtime artifacts, not source)
+logs/

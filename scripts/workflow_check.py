@@ -9,6 +9,9 @@ Subcommands:
   authoring-request  authoring.request.yaml
   handoff            handoff.packet.yaml (any stage)
   package            feature package directory
+  execution-plan     execution.plan.yaml
+  evidence-result    evidence.result.json
+  reconcile-result   reconcile.result.yaml
   pipeline           run all applicable checks in a workflow directory
 
 Options:
@@ -63,6 +66,17 @@ class Result:
 def load_yaml(path: Path) -> dict:
     with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
+
+
+def load_json(path: Path) -> dict:
+    with open(path, encoding="utf-8") as f:
+        return json.load(f) or {}
+
+
+def load_yaml_or_json(path: Path) -> dict:
+    if path.suffix.lower() == ".json":
+        return load_json(path)
+    return load_yaml(path)
 
 
 def is_local(ref: str) -> bool:
@@ -295,7 +309,8 @@ def check_authoring_request(path: Path) -> Result:
 
 ALLOWED_STAGES = {
     "intake-and-routing", "framing", "feature-package-authoring",
-    "readiness-and-handoff", "execution", "verification", "reconcile",
+    "readiness-and-handoff", "execution-planning", "execution-and-evidence", "reconcile-and-close",
+    "execution", "verification", "reconcile",
 }
 ALLOWED_STATUSES = {"ready", "patch-required", "hold", "blocked"}
 REQUIRED_HANDOFF_KEYS = [
@@ -370,10 +385,10 @@ def check_handoff(path: Path, base_dir: Optional[Path] = None,
 REQUIRED_PACKAGE_FILES = [
     "intent.md", "package.yaml", "requirements.yaml", "invariants.yaml",
     "design.md", "tasks.md", "evals.yaml", "risks.yaml",
-    "decisions.jsonl", "contracts",
+    "decisions.jsonl", "slices.yaml", "contracts",
 ]
 
-REQUIRED_PACKAGE_KEYS = ["feature_id", "title", "state", "review_mode"]
+REQUIRED_PACKAGE_KEYS = ["feature_id", "title", "profile_key", "readiness_class"]
 
 DESIGN_REQUIRED_SECTIONS = [
     ("Boundary",           ["Boundary", "Boundaries"]),
@@ -441,6 +456,11 @@ def check_package(pkg_dir: Path, base_dir: Optional[Path] = None) -> Result:
                 for k in REQUIRED_PACKAGE_KEYS:
                     present = k in meta or (k == "feature_id" and "id" in meta)
                     r.add(f"package_key_{k}", present, f"package.yaml missing: {k}")
+            if isinstance(meta, dict):
+                r.add("feature_id_format", FEATURE_ID_RE.match(str(meta.get("feature_id", "")) or str(meta.get("id", ""))) is not None
+                       if isinstance(meta, dict) else False, "feature_id must be FEAT-xxxx")
+                r.add("profile_key_non_empty", bool(meta.get("profile_key")))
+                r.add("readiness_class_non_empty", bool(meta.get("readiness_class")))
         except Exception as e:
             r.add("package_yaml_parse", False, str(e))
 
@@ -546,6 +566,80 @@ def check_package(pkg_dir: Path, base_dir: Optional[Path] = None) -> Result:
     return r
 
 
+# ── execution plan / evidence / reconcile ──────────────────────────────────────
+
+REQUIRED_EXECUTION_PLAN_KEYS = [
+    "package_ref", "slice_ref", "goal_ref", "scope_paths", "req_ids",
+    "task_ids", "eval_ids", "approval_mode", "budget", "stop_conditions",
+]
+
+def check_execution_plan(path: Path) -> Result:
+    r = Result(passed=True, target=str(path), stage="execution-plan")
+    if not r.add("file_exists", path.exists(), f"not found: {path}"):
+        return r
+    try:
+        data = load_yaml(path)
+    except Exception as e:
+        r.add("yaml_parse", False, str(e)); return r
+    r.add("yaml_parse", True)
+    if not r.add("is_mapping", isinstance(data, dict), "must be a YAML mapping"):
+        return r
+    for k in REQUIRED_EXECUTION_PLAN_KEYS:
+        r.add(f"key_{k}", k in data, f"missing: {k}")
+    r.add("scope_paths_list", isinstance(data.get("scope_paths"), list))
+    r.add("req_ids_list", isinstance(data.get("req_ids"), list))
+    r.add("task_ids_list", isinstance(data.get("task_ids"), list))
+    r.add("eval_ids_list", isinstance(data.get("eval_ids"), list))
+    r.add("stop_conditions_list", isinstance(data.get("stop_conditions"), list))
+    r.add("budget_mapping", isinstance(data.get("budget"), dict))
+    return r
+
+
+REQUIRED_EVIDENCE_KEYS = [
+    "run_id", "package_ref", "slice_ref", "produced_artifacts",
+    "verification_results", "logs", "diff_summary", "failure_summary",
+]
+
+def check_evidence_result(path: Path) -> Result:
+    r = Result(passed=True, target=str(path), stage="evidence-result")
+    if not r.add("file_exists", path.exists(), f"not found: {path}"):
+        return r
+    try:
+        data = load_yaml_or_json(path)
+    except Exception as e:
+        r.add("evidence_parse", False, str(e)); return r
+    r.add("evidence_parse", True)
+    if not r.add("is_mapping", isinstance(data, dict), "must be a JSON or YAML mapping"):
+        return r
+    for k in REQUIRED_EVIDENCE_KEYS:
+        r.add(f"key_{k}", k in data, f"missing: {k}")
+    r.add("produced_artifacts_list", isinstance(data.get("produced_artifacts"), list))
+    return r
+
+
+REQUIRED_RECONCILE_KEYS = [
+    "stage", "status", "package_ref", "slice_ref", "evidence_refs",
+    "decision_summary", "changed_paths", "next_action", "open_questions", "blockers",
+]
+
+def check_reconcile_result(path: Path) -> Result:
+    r = Result(passed=True, target=str(path), stage="reconcile-result")
+    if not r.add("file_exists", path.exists(), f"not found: {path}"):
+        return r
+    try:
+        data = load_yaml(path)
+    except Exception as e:
+        r.add("yaml_parse", False, str(e)); return r
+    r.add("yaml_parse", True)
+    if not r.add("is_mapping", isinstance(data, dict), "must be a YAML mapping"):
+        return r
+    for k in REQUIRED_RECONCILE_KEYS:
+        r.add(f"key_{k}", k in data, f"missing: {k}")
+    for k in ["evidence_refs", "changed_paths", "open_questions", "blockers"]:
+        r.add(f"{k}_list", isinstance(data.get(k), list))
+    return r
+
+
 # ── pipeline ──────────────────────────────────────────────────────────────────
 
 def _find(workflow_dir: Path, *names: str) -> Optional[Path]:
@@ -581,6 +675,9 @@ def check_pipeline(workflow_dir: Path, base_dir: Optional[Path] = None,
     if charter and blueprint:
         absorb(check_framing(charter, blueprint))
 
+    if (workflow_dir / "intent.md").exists() and (workflow_dir / "package.yaml").exists():
+        absorb(check_package(workflow_dir, base_dir=base_dir))
+
     p = _find(workflow_dir,
               "charter.framing.handoff.packet.yaml",
               "framing.handoff.packet.yaml",
@@ -603,6 +700,18 @@ def check_pipeline(workflow_dir: Path, base_dir: Optional[Path] = None,
     if p:
         absorb(check_handoff(p, base_dir=base_dir,
                              required_stage="readiness-and-handoff"))
+
+    p = _find(workflow_dir, "execution.plan.yaml")
+    if p:
+        absorb(check_execution_plan(p))
+
+    p = _find(workflow_dir, "evidence.result.json")
+    if p:
+        absorb(check_evidence_result(p))
+
+    p = _find(workflow_dir, "reconcile.result.yaml")
+    if p:
+        absorb(check_reconcile_result(p))
 
     # Generic fallback: filename carries no stage info, so don't enforce required_stage.
     p = _find(workflow_dir, "handoff.packet.yaml")
@@ -642,6 +751,12 @@ def build_parser() -> argparse.ArgumentParser:
                    ).add_argument("path")
     sub.add_parser("package",           help="Validate feature package directory"
                    ).add_argument("dir")
+    sub.add_parser("execution-plan",    help="Validate execution.plan.yaml"
+                   ).add_argument("path")
+    sub.add_parser("evidence-result",   help="Validate evidence.result.json"
+                   ).add_argument("path")
+    sub.add_parser("reconcile-result",  help="Validate reconcile.result.yaml"
+                   ).add_argument("path")
     sub.add_parser("pipeline",          help="Run all checks in workflow dir"
                    ).add_argument("dir")
     return p
@@ -664,6 +779,12 @@ def main():
         result = check_handoff(Path(args.path), base_dir=base_dir)
     elif cmd == "package":
         result = check_package(Path(args.dir), base_dir=base_dir)
+    elif cmd == "execution-plan":
+        result = check_execution_plan(Path(args.path))
+    elif cmd == "evidence-result":
+        result = check_evidence_result(Path(args.path))
+    elif cmd == "reconcile-result":
+        result = check_reconcile_result(Path(args.path))
     elif cmd == "pipeline":
         result = check_pipeline(Path(args.dir), base_dir=base_dir, strict=args.strict)
     else:

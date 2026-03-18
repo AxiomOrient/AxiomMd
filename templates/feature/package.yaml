@@ -1,13 +1,17 @@
-feature:
-  id: FEAT-xxxx
-  slug: short-slug
-  title: "<feature title>"
-  summary: >
-    <one-paragraph summary>
-  state: draft
-  brownfield_mode: false
-  profile_key: axiom.default
-  owner_role: founder
-  verification_owner_role: verifier
-  review_mode: human_required
-  source_refs: []
+feature_id: FEAT-0000
+title: ""
+status: proposed
+summary: ""
+problem: ""
+goals: []
+non_goals: []
+scope:
+  in: []
+  out: []
+owners: []
+source_of_truth_refs: []
+depends_on: []
+profile_key: ""
+profile_version: ""
+readiness_class: implementation
+notes: []

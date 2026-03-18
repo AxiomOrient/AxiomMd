@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scope Router"
+  short_description: "Choose the next document path from an input packet"
+  default_prompt: "Use $scope-router to decide whether the current input packet should go straight to feature package authoring or needs framing docs first."

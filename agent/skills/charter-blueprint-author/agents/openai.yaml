@@ -1,0 +1,4 @@
+interface:
+  display_name: "Charter Blueprint Author"
+  short_description: "Write framing docs before feature split"
+  default_prompt: "Use $charter-blueprint-author to create product-charter.md and system-blueprint.md from the current normalized input packet."

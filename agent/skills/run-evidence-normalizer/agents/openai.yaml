@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run Evidence Normalizer"
+  short_description: "Normalize an executed slice result into an evidence bundle"
+  default_prompt: "Use $run-evidence-normalizer to normalize one executed AxiomSpecs slice result into one bounded evidence bundle."

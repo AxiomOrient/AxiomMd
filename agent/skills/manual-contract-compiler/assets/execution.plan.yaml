@@ -1,0 +1,12 @@
+stage: execution-planning
+package_ref: ""
+slice_ref: ""
+goal_ref: ""
+scope_paths: []
+req_ids: []
+task_ids: []
+eval_ids: []
+approval_mode: ""
+budget: {}
+stop_conditions: []
+notes: []

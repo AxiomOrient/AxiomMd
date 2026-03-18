@@ -1,8 +1,10 @@
 {
-  "feature_id": "FEAT-xxxx",
-  "workitem_id": "WI-xxxx",
-  "status": "pending",
-  "requirement_coverage": [],
-  "checks": [],
-  "notes": []
+  "run_id": "run-xxxx",
+  "package_ref": "FEAT-xxxx",
+  "slice_ref": "SLICE-xxxx",
+  "produced_artifacts": [],
+  "verification_results": [],
+  "logs": [],
+  "diff_summary": "",
+  "failure_summary": ""
 }

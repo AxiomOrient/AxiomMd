@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reconcile Review"
+  short_description: "Review evidence and emit a bounded reconcile decision"
+  default_prompt: "Use $reconcile-review to classify one evidence bundle into accepted, patch-required, relaunch, or hold and emit a reconcile-stage handoff."

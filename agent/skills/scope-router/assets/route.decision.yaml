@@ -1,0 +1,8 @@
+packet_version: 1
+input_ref: "input.packet.yaml"
+route: "direct-package"
+reason_summary: "현재 입력이 하나의 bounded feature로 바로 내려갈 수 있기 때문이다."
+required_artifacts: []
+next_step: "feature-package-authoring"
+open_questions: []
+blockers: []

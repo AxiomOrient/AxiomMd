@@ -1,0 +1,16 @@
+feature_id: FEAT-xxxx
+slug: short-slug
+title: "<feature title>"
+implementation_order: 0
+profile_key: axiom-v1
+review_mode: human_required
+planes:
+  - source
+owner_roles:
+  - product
+target_repos:
+  - AxiomSpecs
+adoption:
+  generic-methodology: direct-use
+target_feature_path: specs/features/FEAT-xxxx-short-slug
+mode: create

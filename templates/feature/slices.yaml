@@ -1,0 +1,10 @@
+slices:
+  - slice_id: ""
+    feature_id: ""
+    path_scope: []
+    req_ids: []
+    task_ids: []
+    eval_ids: []
+    done_conditions: []
+    verification_checks: []
+    approval_mode: ""
