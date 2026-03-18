@@ -29,9 +29,16 @@
 - TUI:
   - Stage dashboard, logs summary, blockers panel, open questions panel, produced_paths link list.
 - File cache:
-  - Local checkpoint files under `.axm/run/<run_id>/state.jsonl`.
+  - Local checkpoint files under `.axm/run/<run_id>/state.jsonl` only.
+  - `run_id` is the canonical checkpoint namespace; a resumed run must choose explicit run_id.
 - File contracts:
   - `input.packet.yaml`, `route.decision.yaml`, package artifacts under target directory.
+
+## Policy decision
+
+- **Checkpoint retention policy: `run-id` (canonical)**
+  - `run-id` isolates each execution attempt, avoids stale contamination between retries, and guarantees deterministic resume.
+  - `feature-id` can be added later as an optional directory alias once retention, dedupe, and forensic requirements are proven.
 
 ## Failure Modes
 

@@ -23,7 +23,6 @@ constraints:
 done_signals:
   - "feature package artifacts pass workflow_check"
   - "TUI status and file-cache checkpoint recovery are defined in design/evals"
-open_questions:
-  - "Should file-cache checkpoint retention be per-run-id or per-feature-id by default?"
+open_questions: []
 evidence_refs:
   - "temp/spec-generation-test/run-02/checks.log"

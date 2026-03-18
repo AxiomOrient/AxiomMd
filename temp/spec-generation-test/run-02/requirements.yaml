@@ -25,7 +25,7 @@ requirements:
     acceptance:
       - "checkpoint writes include package path, stage, produced_paths, evidence_refs"
       - "resume can continue from last completed stage without manual reconstruction"
-      - "cache format is deterministic and versioned per run"
+      - "cache retention is keyed by run_id, stored under .axm/run/<run_id>/state.jsonl, and deterministic for replay"
 
   - id: REQ-0004
     title: "Validation and recovery"

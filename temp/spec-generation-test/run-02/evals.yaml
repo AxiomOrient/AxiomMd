@@ -40,10 +40,10 @@ evals:
     task_ids:
       - TASK-0002
     procedure:
-      - "simulate interrupted run and write checkpoint to local cache"
-      - "resume command reads last successful stage from cache"
+      - "simulate interrupted run and write checkpoint to `.axm/run/<run_id>/state.jsonl`"
+      - "resume command resolves target by explicit run_id and reads last successful stage from cache"
       - "verify no duplicate stage execution after resume"
-    pass_condition: "resume mode restores last-good stage from deterministic cache snapshot"
+    pass_condition: "resume mode restores last-good stage from run-id scoped deterministic cache snapshot"
     command: "axm resume --from-cache"
     expected_artifacts:
       - ".axm/run/<run_id>/state.jsonl"
